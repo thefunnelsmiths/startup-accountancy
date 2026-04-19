@@ -15,14 +15,11 @@
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,188,218,0.3);padding:0 48px;">
-    <div style="max-width:1200px;margin:0 auto;height:64px;display:flex;align-items:center;">
-      <a href="/" aria-label="Startup Accountancy" style="display:flex;align-items:center;gap:10px;">
-        <img src="assets/logo.png" alt="Startup Accountancy" style="height:42px;width:auto;" onerror="this.style.display='none'" />
-        <span style="font-family:Questrial;font-size:18px;color:var(--on-background);letter-spacing:-0.01em;">Startup Accountancy</span>
-      </a>
-    </div>
+  <!-- Nav — matches landing page exactly -->
+  <nav style="padding:28px 0;display:flex;align-items:center;justify-content:center;background:var(--surface);border-bottom:1px solid rgba(201,188,218,0.2);">
+    <a href="/" aria-label="Startup Accountancy">
+      <img src="assets/logo.png" alt="Startup Accountancy" style="height:52px;width:auto;" />
+    </a>
   </nav>
 
   <!-- Hero -->
@@ -42,15 +39,16 @@
     </div>
   </section>
 
-  <!-- Calendar embed -->
+  <!-- Calendar embed — script must sit immediately after the iframe -->
   <section style="padding:0 48px 96px;">
-    <div style="max-width:820px;margin:0 auto;background:var(--surface-container-lowest);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px -12px rgba(28,9,86,0.12);border:1px solid rgba(201,188,218,0.25);">
+    <div style="max-width:820px;margin:0 auto;">
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/5hjTB66wPSkoS6alfnlS"
-        style="width:100%;min-height:680px;border:none;overflow:hidden;display:block;"
+        style="width:100%;border:none;overflow:hidden;"
         scrolling="no"
         id="5hjTB66wPSkoS6alfnlS_1776617299630"
       ></iframe>
+      <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
     </div>
   </section>
 
@@ -78,6 +76,5 @@
     </div>
   </section>
 
-  <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
 </body>
 </html>
