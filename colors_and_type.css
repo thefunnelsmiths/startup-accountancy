@@ -1,0 +1,209 @@
+/* =========================================================
+   Startup Accountancy — Design Tokens
+   "The Precision Luminary"
+   Colors, Type, Spacing, Elevation
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Lexend:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ---------- BRAND / PRIMARY PALETTE ---------- */
+  --primary:             #7d33c3;
+  --primary-container:   #9850de;
+  --on-primary:          #ffffff;
+  --on-primary-container:#ffffff;
+
+  --background:          #fdf8ff;
+  --on-background:       #1c0956;
+
+  /* ---------- SURFACE HIERARCHY ---------- */
+  --surface:                 #fdf8ff;
+  --surface-container-lowest:#ffffff;
+  --surface-container-low:   #f6eefb;
+  --surface-container:       #efe6f6;
+  --surface-container-high:  #e8dcf0;
+  --surface-container-highest:#e0d2ea;
+
+  --on-surface:              #1c0956;
+  --on-surface-variant:      #5a4a7a;
+
+  /* ---------- SECONDARY / TERTIARY ---------- */
+  --secondary:           #6a5aa0;
+  --on-secondary:        #ffffff;
+  --secondary-container: #e4dcff;
+  --on-secondary-container:#231461;
+
+  --tertiary:            #596100;
+  --on-tertiary:         #ffffff;
+  --tertiary-container:  #dded2e;
+  --on-tertiary-container:#1a1d00;
+  --tertiary-fixed:      #dded2e;
+
+  /* ---------- SEMANTIC ---------- */
+  --error:               #b3261e;
+  --on-error:            #ffffff;
+  --error-container:     #f9dedc;
+  --on-error-container:  #410e0b;
+
+  --success:             #2f7d32;
+  --on-success:          #ffffff;
+  --warning:             #b8860b;
+
+  /* ---------- OUTLINE ---------- */
+  --outline:             #7a6d92;
+  --outline-variant:     #c9bcda;
+
+  /* ---------- SHADOW ---------- */
+  --shadow-ambient: 0 8px 32px -8px rgba(28, 9, 86, 0.08);
+  --shadow-lift:    0 2px 12px -2px rgba(28, 9, 86, 0.06);
+  --shadow-float:   0 16px 48px -12px rgba(28, 9, 86, 0.12);
+
+  /* ---------- GRADIENTS ---------- */
+  --gradient-primary: linear-gradient(135deg, #7d33c3 0%, #9850de 100%);
+  --gradient-hero:    linear-gradient(135deg, #7d33c3 0%, #9850de 60%, #c48ef0 100%);
+  --gradient-tertiary:linear-gradient(135deg, #dded2e 0%, #c4d200 100%);
+
+  /* ---------- RADII ---------- */
+  --radius-xs:  0.125rem;
+  --radius-sm:  0.25rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.5rem;
+  --radius-full:9999px;
+
+  /* ---------- SPACING ---------- */
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 7rem;
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display: 'Questrial', system-ui, sans-serif;
+  --font-body:    'Lexend',   system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* ---------- TYPE SCALE ---------- */
+  --display-lg-size: clamp(3.25rem, 6vw, 5rem);
+  --display-md-size: clamp(2.5rem, 4.5vw, 3.75rem);
+  --display-sm-size: clamp(2rem, 3.5vw, 2.75rem);
+
+  --headline-lg-size: 2rem;
+  --headline-md-size: 1.5rem;
+  --headline-sm-size: 1.25rem;
+
+  --title-lg-size:    1.125rem;
+  --title-md-size:    1rem;
+  --title-sm-size:    0.9375rem;
+
+  --body-lg-size:     1.125rem;
+  --body-md-size:     1rem;
+  --body-sm-size:     0.875rem;
+
+  --label-lg-size:    0.875rem;
+  --label-md-size:    0.75rem;
+  --label-sm-size:    0.6875rem;
+
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.45;
+  --leading-relaxed: 1.6;
+
+  /* ---------- MOTION ---------- */
+  --ease-out:   cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-inout: cubic-bezier(0.45, 0, 0.25, 1);
+  --dur-fast:   150ms;
+  --dur-base:   240ms;
+  --dur-slow:   420ms;
+}
+
+/* =========================================================
+   SEMANTIC TYPE CLASSES
+   ========================================================= */
+
+.display-lg, .display-md, .display-sm {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: var(--leading-tight);
+  color: var(--on-background);
+}
+.display-lg { font-size: var(--display-lg-size); }
+.display-md { font-size: var(--display-md-size); }
+.display-sm { font-size: var(--display-sm-size); }
+
+.headline-lg, .headline-md, .headline-sm {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+  color: var(--on-background);
+}
+.headline-lg { font-size: var(--headline-lg-size); }
+.headline-md { font-size: var(--headline-md-size); }
+.headline-sm { font-size: var(--headline-sm-size); }
+
+.title-lg, .title-md, .title-sm {
+  font-family: var(--font-body);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--on-surface);
+}
+.title-lg { font-size: var(--title-lg-size); }
+.title-md { font-size: var(--title-md-size); }
+.title-sm { font-size: var(--title-sm-size); }
+
+.body-lg, .body-md, .body-sm {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+  color: var(--on-surface-variant);
+}
+.body-lg { font-size: var(--body-lg-size); }
+.body-md { font-size: var(--body-md-size); }
+.body-sm { font-size: var(--body-sm-size); }
+
+.label-lg, .label-md, .label-sm {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+.label-lg { font-size: var(--label-lg-size); }
+.label-md { font-size: var(--label-md-size); }
+.label-sm { font-size: var(--label-sm-size); }
+
+/* =========================================================
+   DEFAULT ELEMENT STYLING
+   ========================================================= */
+html { background: var(--background); color: var(--on-background); }
+body {
+  font-family: var(--font-body);
+  font-size: var(--body-md-size);
+  line-height: var(--leading-relaxed);
+  color: var(--on-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 { font: 400 var(--display-md-size)/var(--leading-tight) var(--font-display); letter-spacing: -0.02em; color: var(--on-background); }
+h2 { font: 400 var(--headline-lg-size)/var(--leading-snug) var(--font-display); letter-spacing: -0.01em; color: var(--on-background); }
+h3 { font: 400 var(--headline-md-size)/var(--leading-snug) var(--font-display); color: var(--on-background); }
+h4 { font: 600 var(--title-lg-size)/var(--leading-snug) var(--font-body); color: var(--on-surface); }
+h5 { font: 600 var(--title-md-size)/var(--leading-snug) var(--font-body); color: var(--on-surface); }
+p  { font: 400 var(--body-md-size)/var(--leading-relaxed) var(--font-body); color: var(--on-surface-variant); }
+
+a  { color: var(--primary); text-decoration: none; transition: opacity var(--dur-fast) var(--ease-out); }
+a:hover { opacity: 0.75; }
+
+.overline {
+  font-family: var(--font-body);
+  font-size: var(--label-md-size);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
