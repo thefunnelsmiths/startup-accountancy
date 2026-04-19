@@ -1,14 +1,49 @@
 /* global React, Button */
 
 function FinalCTA() {
-  const days = [
-    { d: 'Mon', n: 22, state: 'off' },
-    { d: 'Tue', n: 23, state: 'on' },
-    { d: 'Wed', n: 24, state: 'picked' },
-    { d: 'Thu', n: 25, state: 'on' },
-    { d: 'Fri', n: 26, state: 'on' },
-  ];
-  const slots = ['09:30', '10:15', '11:00', '14:30', '15:30', '16:15'];
+  const [form, setForm] = React.useState({ firstName: '', email: '', phone: '' });
+  const [submitted, setSubmitted] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  function handleChange(e) {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    const webhookUrl = window.GHL_WEBHOOK_URL || '';
+    if (webhookUrl) {
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }),
+      })
+        .catch(() => {})
+        .finally(() => { setLoading(false); setSubmitted(true); });
+    } else {
+      setLoading(false);
+      setSubmitted(true);
+    }
+  }
+
+  const inputStyle = {
+    width: '100%', boxSizing: 'border-box',
+    padding: '13px 16px',
+    fontFamily: 'Lexend', fontSize: 15,
+    color: 'var(--on-background)',
+    background: 'var(--surface-container-low)',
+    border: '1.5px solid rgba(201,188,218,0.4)',
+    borderRadius: 12, outline: 'none',
+  };
+
+  const labelStyle = {
+    display: 'block',
+    fontFamily: 'Lexend', fontSize: 12, fontWeight: 600,
+    letterSpacing: '0.06em', textTransform: 'uppercase',
+    color: 'var(--on-surface-variant)',
+    marginBottom: 6,
+  };
 
   return (
     <section style={{
@@ -40,13 +75,13 @@ function FinalCTA() {
           position: 'relative',
           display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 56, alignItems: 'center',
         }}>
-          {/* Left — pricing + copy */}
+          {/* Left — copy */}
           <div>
             <span style={{
               fontFamily: 'Lexend', fontSize: 12, fontWeight: 600,
               letterSpacing: '0.08em', textTransform: 'uppercase',
               color: 'var(--tertiary-container)',
-            }}>If you work with us after</span>
+            }}>Free software setup call</span>
             <h2 style={{
               fontFamily: 'Questrial', fontSize: 'clamp(2.25rem, 3.6vw, 3.25rem)',
               lineHeight: 1.05, letterSpacing: '-0.02em',
@@ -63,129 +98,128 @@ function FinalCTA() {
               We review your setup. We tell you what needs fixing.
               We show you how. No charge. No obligation.
             </p>
-
             <div style={{
-              display: 'inline-flex', alignItems: 'baseline', gap: 10,
-              padding: '14px 20px',
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.18)',
-              borderRadius: 16,
+              display: 'flex', flexDirection: 'column', gap: 12,
             }}>
-              <span style={{
-                fontFamily: 'Questrial', fontSize: 36,
-                color: '#fff', letterSpacing: '-0.02em', lineHeight: 1,
-              }}>£345</span>
-              <span style={{
-                fontFamily: 'Lexend', fontSize: 14,
-                color: 'rgba(255,255,255,0.7)',
-              }}>/mo · everything included · no year-end bills</span>
-            </div>
-            <div style={{
-              marginTop: 18,
-              fontFamily: 'Lexend', fontSize: 14,
-              color: 'rgba(255,255,255,0.85)',
-            }}>
-              The setup review itself?{' '}
-              <span style={{
-                background: 'var(--tertiary-container)',
-                color: 'var(--on-tertiary-container)',
-                padding: '2px 10px', borderRadius: 4, fontWeight: 600,
-              }}>Complimentary.</span>
+              {[
+                { icon: 'check-circle', text: 'We review your accounting software together' },
+                { icon: 'check-circle', text: 'Fix any issues in the session, live' },
+                { icon: 'check-circle', text: 'Walk away with everything set up correctly' },
+              ].map(item => (
+                <div key={item.text} style={{
+                  display: 'flex', alignItems: 'flex-start', gap: 12,
+                }}>
+                  <i data-lucide={item.icon} style={{
+                    width: 18, height: 18, flexShrink: 0, marginTop: 2,
+                    color: 'var(--tertiary-container)',
+                  }} />
+                  <span style={{
+                    fontFamily: 'Lexend', fontSize: 15, lineHeight: 1.5,
+                    color: 'rgba(255,255,255,0.88)',
+                  }}>{item.text}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right — mini booking widget */}
+          {/* Right — lead form */}
           <div style={{
             background: 'var(--surface-container-lowest)',
-            borderRadius: 20, padding: 28,
+            borderRadius: 20, padding: 32,
             boxShadow: '0 20px 60px -12px rgba(0,0,0,0.3)',
           }}>
-            <div style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              marginBottom: 18,
-            }}>
-              <div>
-                <span className="overline" style={{ color: 'var(--primary)' }}>Book your session</span>
+            {submitted ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <i data-lucide="check-circle" style={{
+                  width: 48, height: 48, color: 'var(--primary)', margin: '0 auto 16px',
+                  display: 'block',
+                }} />
                 <div style={{
-                  fontFamily: 'Questrial', fontSize: 22,
-                  color: 'var(--on-background)', letterSpacing: '-0.01em', marginTop: 2,
-                }}>This week</div>
-              </div>
-              <div style={{
-                fontFamily: 'Lexend', fontSize: 12, color: 'var(--on-surface-variant)',
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-              }}>
-                <i data-lucide="chevron-left" style={{ width: 16, height: 16, color: 'var(--on-surface-variant)' }} />
-                Apr 2026
-                <i data-lucide="chevron-right" style={{ width: 16, height: 16, color: 'var(--primary)' }} />
-              </div>
-            </div>
-
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8,
-            }}>
-              {days.map(day => (
-                <button key={day.n} style={{
-                  padding: '12px 0', borderRadius: 12, cursor: 'pointer',
-                  background:
-                    day.state === 'picked' ? 'var(--primary)' :
-                    day.state === 'on' ? 'var(--surface-container-low)' :
-                    'transparent',
-                  color:
-                    day.state === 'picked' ? '#fff' :
-                    day.state === 'off' ? 'var(--on-surface-variant)' :
-                    'var(--on-background)',
-                  opacity: day.state === 'off' ? 0.4 : 1,
-                  border: 'none',
-                  fontFamily: 'Lexend',
-                  textAlign: 'center',
+                  fontFamily: 'Questrial', fontSize: 24,
+                  color: 'var(--on-background)', letterSpacing: '-0.01em', marginBottom: 10,
+                }}>You're booked in!</div>
+                <p style={{
+                  fontFamily: 'Lexend', fontSize: 15, lineHeight: 1.6,
+                  color: 'var(--on-surface-variant)',
                 }}>
-                  <div style={{
-                    fontSize: 10, fontWeight: 600, letterSpacing: '0.06em',
-                    textTransform: 'uppercase', opacity: 0.7, marginBottom: 2,
-                  }}>{day.d}</div>
-                  <div style={{ fontSize: 18, fontWeight: 500, fontFeatureSettings: '"tnum"' }}>{day.n}</div>
-                </button>
-              ))}
-            </div>
-
-            <div style={{
-              marginTop: 20, paddingTop: 18,
-              borderTop: '1px solid rgba(201,188,218,0.4)',
-            }}>
-              <div style={{
-                fontFamily: 'Lexend', fontSize: 13, fontWeight: 600,
-                color: 'var(--on-background)', marginBottom: 10,
-              }}>
-                Wed 24 April
-                <span style={{ color: 'var(--on-surface-variant)', fontWeight: 400, marginLeft: 6 }}>· GMT</span>
+                  We'll be in touch shortly to confirm your session time.
+                </p>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {slots.map((t, i) => (
-                  <button key={t} style={{
-                    padding: '7px 14px', borderRadius: 999,
-                    background: i === 2 ? 'var(--primary)' : 'var(--surface-container-low)',
-                    color: i === 2 ? '#fff' : 'var(--on-background)',
-                    border: 'none', cursor: 'pointer',
-                    fontFamily: 'Lexend', fontSize: 13, fontWeight: 500,
-                    fontFeatureSettings: '"tnum"',
-                  }}>{t}</button>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ marginTop: 20 }}>
-              <Button variant="primary" size="lg" style={{ width: '100%', justifyContent: 'center' }}>
-                Confirm · Wed 11:00 →
-              </Button>
-              <div style={{
-                marginTop: 10, textAlign: 'center',
-                fontFamily: 'Lexend', fontSize: 12,
-                color: 'var(--on-surface-variant)',
-              }}>
-                One thing to prepare: your software login.
-              </div>
-            </div>
+            ) : (
+              React.createElement('form', { onSubmit: handleSubmit },
+                React.createElement('div', { style: { marginBottom: 8 } },
+                  React.createElement('span', { className: 'overline', style: { color: 'var(--primary)' } }, 'Book your session'),
+                  React.createElement('div', {
+                    style: {
+                      fontFamily: 'Questrial', fontSize: 22,
+                      color: 'var(--on-background)', letterSpacing: '-0.01em', marginTop: 2, marginBottom: 20,
+                    }
+                  }, 'Claim your free call')
+                ),
+                React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                  React.createElement('div', null,
+                    React.createElement('label', { htmlFor: 'cta-firstName', style: labelStyle }, 'First name'),
+                    React.createElement('input', {
+                      id: 'cta-firstName',
+                      name: 'firstName',
+                      type: 'text',
+                      required: true,
+                      autoComplete: 'given-name',
+                      placeholder: 'Alex',
+                      value: form.firstName,
+                      onChange: handleChange,
+                      style: inputStyle,
+                    })
+                  ),
+                  React.createElement('div', null,
+                    React.createElement('label', { htmlFor: 'cta-email', style: labelStyle }, 'Email'),
+                    React.createElement('input', {
+                      id: 'cta-email',
+                      name: 'email',
+                      type: 'email',
+                      required: true,
+                      autoComplete: 'email',
+                      placeholder: 'you@yourstartup.com',
+                      value: form.email,
+                      onChange: handleChange,
+                      style: inputStyle,
+                    })
+                  ),
+                  React.createElement('div', null,
+                    React.createElement('label', { htmlFor: 'cta-phone', style: labelStyle }, 'Mobile number'),
+                    React.createElement('input', {
+                      id: 'cta-phone',
+                      name: 'phone',
+                      type: 'tel',
+                      required: true,
+                      autoComplete: 'tel',
+                      inputMode: 'tel',
+                      placeholder: '07700 900000',
+                      pattern: '[0-9\\s\\+\\-\\(\\)]{7,20}',
+                      value: form.phone,
+                      onChange: handleChange,
+                      style: inputStyle,
+                    })
+                  )
+                ),
+                React.createElement('div', { style: { marginTop: 24 } },
+                  React.createElement(Button, {
+                    variant: 'primary',
+                    size: 'lg',
+                    type: 'submit',
+                    disabled: loading,
+                    style: { width: '100%', justifyContent: 'center' },
+                  }, loading ? 'Sending…' : 'Book my free setup call →'),
+                  React.createElement('div', {
+                    style: {
+                      marginTop: 10, textAlign: 'center',
+                      fontFamily: 'Lexend', fontSize: 12,
+                      color: 'var(--on-surface-variant)',
+                    }
+                  }, 'No obligation · We\'ll confirm a time that works for you')
+                )
+              )
+            )}
           </div>
         </div>
       </div>
