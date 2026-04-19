@@ -412,9 +412,11 @@ function FinalCTA() {
   function handleSubmit(ev) {
     ev.preventDefault();
     setLoading(true);
-    var url = window.GHL_WEBHOOK_URL || '';
-    var redirect = function() { window.location.href = 'book.html'; };
-    if (url) { fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }) }).catch(function(){}).finally(redirect); }
+    var params = new URLSearchParams({ first_name: form.firstName, email: form.email, phone: form.phone });
+    var calendarUrl = 'https://api.leadconnectorhq.com/widget/booking/5hjTB66wPSkoS6alfnlS?' + params.toString();
+    var webhookUrl = window.GHL_WEBHOOK_URL || '';
+    var redirect = function() { window.location.href = calendarUrl; };
+    if (webhookUrl) { fetch(webhookUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }) }).catch(function(){}).finally(redirect); }
     else { redirect(); }
   }
   var inputStyle = { width:'100%', boxSizing:'border-box', padding:'13px 16px', fontFamily:'Lexend', fontSize:15, color:'var(--on-background)', background:'var(--surface-container-low)', border:'1.5px solid rgba(201,188,218,0.4)', borderRadius:12, outline:'none' };
