@@ -404,8 +404,25 @@ function Founders() {
 
 /* ── Final CTA ── */
 function FinalCTA() {
-  const days = [{ d:'Mon',n:22,s:'off'},{d:'Tue',n:23,s:'on'},{d:'Wed',n:24,s:'picked'},{d:'Thu',n:25,s:'on'},{d:'Fri',n:26,s:'on'}];
-  const slots = ['09:30','10:15','11:00','14:30','15:30','16:15'];
+  const [form, setForm] = useState({ firstName: '', email: '', phone: '' });
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  function handleChange(ev) { setForm(function(p){ var n={}; for(var k in p) n[k]=p[k]; n[ev.target.name]=ev.target.value; return n; }); }
+  function handleSubmit(ev) {
+    ev.preventDefault();
+    setLoading(true);
+    var url = window.GHL_WEBHOOK_URL || '';
+    var done = function() { setLoading(false); setSubmitted(true); };
+    if (url) { fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }) }).catch(function(){}).finally(done); }
+    else { done(); }
+  }
+  var inputStyle = { width:'100%', boxSizing:'border-box', padding:'13px 16px', fontFamily:'Lexend', fontSize:15, color:'var(--on-background)', background:'var(--surface-container-low)', border:'1.5px solid rgba(201,188,218,0.4)', borderRadius:12, outline:'none' };
+  var labelStyle = { display:'block', fontFamily:'Lexend', fontSize:12, fontWeight:600, letterSpacing:'0.06em', textTransform:'uppercase', color:'var(--on-surface-variant)', marginBottom:6 };
+  var bullets = [
+    'We review your accounting software together',
+    'Fix any issues in the session, live',
+    'Walk away with everything set up correctly',
+  ];
   return e('section', { style: { padding: '96px 48px', background: 'var(--surface)' } },
     e(Reveal, { delay: 'd1' },
       e('div', { style: { maxWidth: 1200, margin: '0 auto', background: 'linear-gradient(135deg,#1c0956 0%,#3a1785 55%,#7d33c3 100%)', borderRadius: 32, padding: '72px 64px', position: 'relative', overflow: 'hidden', boxShadow: '0 24px 64px -16px rgba(28,9,86,0.35)' } },
@@ -413,7 +430,7 @@ function FinalCTA() {
         e('div', { 'aria-hidden': true, style: { position: 'absolute', bottom: -180, left: -100, width: 420, height: 420, background: 'radial-gradient(circle,rgba(152,80,222,0.35),transparent 60%)', filter: 'blur(40px)' } }),
         e('div', { className: 'g2', style: { position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 56, alignItems: 'center' } },
           e('div', null,
-            e('span', { style: { fontFamily: 'Lexend', fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--tertiary-container)' } }, 'If you work with us after'),
+            e('span', { style: { fontFamily: 'Lexend', fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--tertiary-container)' } }, 'Free software setup call'),
             e('h2', { style: { fontFamily: 'Questrial', fontSize: 'clamp(2.25rem,3.6vw,3.25rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: '#fff', margin: '14px 0 18px' } },
               'Get your books set up', e('br'),
               e('span', { style: { color: 'var(--tertiary-container)' } }, 'right'), ' — in one session.'
@@ -421,47 +438,46 @@ function FinalCTA() {
             e('p', { style: { fontFamily: 'Lexend', fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)', margin: '0 0 28px', maxWidth: 480 } },
               'We review your setup. We tell you what needs fixing. We show you how. No charge. No obligation.'
             ),
-            e('div', { style: { display: 'inline-flex', alignItems: 'baseline', gap: 10, padding: '14px 20px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 16 } },
-              e('span', { style: { fontFamily: 'Questrial', fontSize: 36, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 } }, '£345'),
-              e('span', { style: { fontFamily: 'Lexend', fontSize: 14, color: 'rgba(255,255,255,0.7)' } }, '/mo · everything included · no year-end bills')
-            ),
-            e('div', { style: { marginTop: 18, fontFamily: 'Lexend', fontSize: 14, color: 'rgba(255,255,255,0.85)' } },
-              'The setup review itself? ',
-              e('span', { style: { background: 'var(--tertiary-container)', color: 'var(--on-tertiary-container)', padding: '2px 10px', borderRadius: 4, fontWeight: 600 } }, 'Complimentary.')
+            e('div', { style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+              bullets.map(function(txt) {
+                return e('div', { key: txt, style: { display: 'flex', alignItems: 'flex-start', gap: 12 } },
+                  e(Icon, { name: 'check-circle', size: 18, style: { flexShrink: 0, marginTop: 2, color: 'var(--tertiary-container)' } }),
+                  e('span', { style: { fontFamily: 'Lexend', fontSize: 15, lineHeight: 1.5, color: 'rgba(255,255,255,0.88)' } }, txt)
+                );
+              })
             )
           ),
-          e('div', { style: { background: 'var(--surface-container-lowest)', borderRadius: 20, padding: 28, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.3)' } },
-            e('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 } },
-              e('div', null,
-                e('span', { className: 'overline', style: { color: 'var(--primary)' } }, 'Book your session'),
-                e('div', { style: { fontFamily: 'Questrial', fontSize: 22, color: 'var(--on-background)', letterSpacing: '-0.01em', marginTop: 2 } }, 'This week')
-              ),
-              e('div', { style: { fontFamily: 'Lexend', fontSize: 12, color: 'var(--on-surface-variant)', display: 'inline-flex', alignItems: 'center', gap: 6 } },
-                e(Icon, { name: 'chevron-left', size: 16 }), 'Apr 2026', e(Icon, { name: 'chevron-right', size: 16, style: { color: 'var(--primary)' } })
-              )
-            ),
-            e('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 8 } },
-              ...days.map(d =>
-                e('button', { key: d.n, style: { padding: '12px 0', borderRadius: 12, cursor: 'pointer', background: d.s==='picked'?'var(--primary)':d.s==='on'?'var(--surface-container-low)':'transparent', color: d.s==='picked'?'#fff':d.s==='off'?'var(--on-surface-variant)':'var(--on-background)', opacity: d.s==='off'?0.4:1, border: 'none', fontFamily: 'Lexend', textAlign: 'center' } },
-                  e('div', { style: { fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', opacity: 0.7, marginBottom: 2 } }, d.d),
-                  e('div', { style: { fontSize: 18, fontWeight: 500 } }, d.n)
+          e('div', { style: { background: 'var(--surface-container-lowest)', borderRadius: 20, padding: 32, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.3)' } },
+            submitted
+              ? e('div', { style: { textAlign: 'center', padding: '24px 0' } },
+                  e(Icon, { name: 'check-circle', size: 48, style: { color: 'var(--primary)', margin: '0 auto 16px', display: 'block' } }),
+                  e('div', { style: { fontFamily: 'Questrial', fontSize: 24, color: 'var(--on-background)', letterSpacing: '-0.01em', marginBottom: 10 } }, "You're booked in!"),
+                  e('p', { style: { fontFamily: 'Lexend', fontSize: 15, lineHeight: 1.6, color: 'var(--on-surface-variant)' } }, "We'll be in touch shortly to confirm your session time.")
                 )
-              )
-            ),
-            e('div', { style: { marginTop: 20, paddingTop: 18, borderTop: '1px solid rgba(201,188,218,0.4)' } },
-              e('div', { style: { fontFamily: 'Lexend', fontSize: 13, fontWeight: 600, color: 'var(--on-background)', marginBottom: 10 } },
-                'Wed 24 April ', e('span', { style: { color: 'var(--on-surface-variant)', fontWeight: 400, marginLeft: 6 } }, '· GMT')
-              ),
-              e('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 6 } },
-                ...slots.map((t, i) =>
-                  e('button', { key: t, style: { padding: '7px 14px', borderRadius: 999, background: i===2?'var(--primary)':'var(--surface-container-low)', color: i===2?'#fff':'var(--on-background)', border: 'none', cursor: 'pointer', fontFamily: 'Lexend', fontSize: 13, fontWeight: 500 } }, t)
+              : e('form', { onSubmit: handleSubmit },
+                  e('div', { style: { marginBottom: 20 } },
+                    e('span', { className: 'overline', style: { color: 'var(--primary)' } }, 'Book your session'),
+                    e('div', { style: { fontFamily: 'Questrial', fontSize: 22, color: 'var(--on-background)', letterSpacing: '-0.01em', marginTop: 2 } }, 'Claim your free call')
+                  ),
+                  e('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                    e('div', null,
+                      e('label', { htmlFor: 'cta-firstName', style: labelStyle }, 'First name'),
+                      e('input', { id: 'cta-firstName', name: 'firstName', type: 'text', required: true, autoComplete: 'given-name', placeholder: 'Alex', value: form.firstName, onChange: handleChange, style: inputStyle })
+                    ),
+                    e('div', null,
+                      e('label', { htmlFor: 'cta-email', style: labelStyle }, 'Email'),
+                      e('input', { id: 'cta-email', name: 'email', type: 'email', required: true, autoComplete: 'email', placeholder: 'you@yourstartup.com', value: form.email, onChange: handleChange, style: inputStyle })
+                    ),
+                    e('div', null,
+                      e('label', { htmlFor: 'cta-phone', style: labelStyle }, 'Mobile number'),
+                      e('input', { id: 'cta-phone', name: 'phone', type: 'tel', required: true, autoComplete: 'tel', inputMode: 'tel', placeholder: '07700 900000', pattern: '[0-9\\s\\+\\-\\(\\)]{7,20}', value: form.phone, onChange: handleChange, style: inputStyle })
+                    )
+                  ),
+                  e('div', { style: { marginTop: 24 } },
+                    e(Button, { variant: 'primary', size: 'lg', type: 'submit', disabled: loading, style: { width: '100%', justifyContent: 'center' } }, loading ? 'Sending…' : 'Book my free setup call →'),
+                    e('div', { style: { marginTop: 10, textAlign: 'center', fontFamily: 'Lexend', fontSize: 12, color: 'var(--on-surface-variant)' } }, "No obligation · We'll confirm a time that works for you")
+                  )
                 )
-              )
-            ),
-            e('div', { style: { marginTop: 20 } },
-              e(Button, { variant: 'primary', size: 'lg', style: { width: '100%', justifyContent: 'center' } }, 'Confirm · Wed 11:00 →'),
-              e('div', { style: { marginTop: 10, textAlign: 'center', fontFamily: 'Lexend', fontSize: 12, color: 'var(--on-surface-variant)' } }, 'One thing to prepare: your software login.')
-            )
           )
         )
       )
