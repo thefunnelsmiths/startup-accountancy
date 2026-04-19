@@ -520,11 +520,19 @@ function Footer() {
 /* ── App ── */
 function App() {
   useEffect(() => {
-    const run = () => window.lucide && window.lucide.createIcons();
-    run();
-    const obs = new MutationObserver(run);
+    if (!window.lucide) return;
+    var timer = null;
+    var obs = new MutationObserver(function() {
+      clearTimeout(timer);
+      timer = setTimeout(function() {
+        obs.disconnect();
+        window.lucide.createIcons();
+        obs.observe(document.body, { childList: true, subtree: true });
+      }, 50);
+    });
+    window.lucide.createIcons();
     obs.observe(document.body, { childList: true, subtree: true });
-    return () => obs.disconnect();
+    return function() { clearTimeout(timer); obs.disconnect(); };
   }, []);
   return e('div', null, e(Nav), e(Hero), e(SocialProof), e(ProblemMechanism), e(HowItWorks), e(Objections), e(Founders), e(FinalCTA), e(Footer));
 }
