@@ -20,7 +20,7 @@ Requires an internet connection — fonts (Google Fonts), React 18, Babel standa
 
 ## Deployment
 
-- **GitHub → Cloudflare Pages** (auto-deploys on push to `main`)
+- **GitHub → Cloudflare Pages** (auto-deploys on push to `master`)
 - Build command: *(none — leave blank)*
 - Build output directory: `/` (root)
 - Node version: not required
@@ -45,13 +45,44 @@ Each component file attaches itself to `window` (e.g. `window.Button = Button`) 
 
 ## Intended future stack (from project brief)
 
-The project brief specifies migrating to **Next.js static export + Tailwind CSS** with this structure:
+The project brief specifies migrating to **Next.js static export + Tailwind CSS**:
 
-- `pages/index.tsx` — main page
-- `components/` — typed React components (VideoEmbed, LeadForm, HeroSection, ProofBlock, UrgencyBar)
-- Forms POST to a **GHL (GoHighLevel) webhook** via fetch — never use GHL iframes
-- Video hosted on **Vimeo Pro** with lazy-load (thumbnail + play button; inject iframe only on click)
-- `NEXT_PUBLIC_GHL_WEBHOOK` and `NEXT_PUBLIC_VIMEO_ID` as env vars
-- Build output: `/out` · Build command: `npm run build` · Node 18
+```
+startupaccountancy/
+├── components/
+│   ├── VideoEmbed.tsx       # Vimeo lazy load player
+│   ├── LeadForm.tsx         # Posts to GHL webhook
+│   ├── HeroSection.tsx      # Headline, subheadline, CTA
+│   ├── ProofBlock.tsx       # Social proof / testimonials
+│   └── UrgencyBar.tsx       # Countdown or urgency message
+├── pages/
+│   └── index.tsx            # Main landing page
+├── public/
+│   └── images/              # Logos, thumbnails
+├── styles/
+│   └── globals.css
+├── next.config.js
+└── tailwind.config.js
+```
+
+**Rules for the migration:**
+- Static export only — no SSR, no API routes
+- Mobile-first — build components mobile then scale up
+- Forms POST to **GHL (GoHighLevel) webhook** via fetch — never use GHL iframes or embed scripts; on success show confirmation message, do not redirect; fields: `firstName`, `email`, `phone`
+- Video hosted on **Vimeo Pro** with lazy-load (render thumbnail + play button first; inject iframe with `autoplay=1` only on click; Vimeo ID in page config, not hardcoded in component)
+- Colours defined in `tailwind.config.js` — no hardcoded hex values in components
+- Spacing via Tailwind utility classes only; no custom CSS unless unavoidable
+- All CTAs use the same primary button style from `LeadForm`
+- No unnecessary dependencies — keep the bundle lean
+
+**Environment variables:**
+```
+NEXT_PUBLIC_GHL_WEBHOOK=https://services.leadconnectorhq.com/hooks/YOUR_ID
+NEXT_PUBLIC_VIMEO_ID=YOUR_VIMEO_ID
+```
+
+**Commands (post-migration):** `npm run dev` · `npm run build` (outputs to `/out`)
+
+**Cloudflare Pages (post-migration):** Build command: `npm run build` · Output: `out` · Node 18 · branch: `master`
 
 When migrating, preserve all copy, colors, and layout from the current implementation exactly.

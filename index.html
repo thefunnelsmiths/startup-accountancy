@@ -10,33 +10,549 @@
     body { background: var(--surface); overflow-x: hidden; }
     a { text-decoration: none; }
     *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
+
     @media (max-width: 960px) {
-      section > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+      .grid-responsive { grid-template-columns: 1fr !important; }
     }
+
+    /* Entrance animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .animate-on-scroll {
+      opacity: 0;
+    }
+    .animate-on-scroll.visible {
+      animation: fadeUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    .animate-fade.visible {
+      animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    .delay-1 { animation-delay: 0.08s !important; }
+    .delay-2 { animation-delay: 0.16s !important; }
+    .delay-3 { animation-delay: 0.24s !important; }
+    .delay-4 { animation-delay: 0.32s !important; }
   </style>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
   <div id="root"></div>
 
-  <script type="text/babel" src="components/Button.jsx"></script>
-  <script type="text/babel" src="components/Nav.jsx"></script>
-  <script type="text/babel" src="components/Hero.jsx"></script>
-  <script type="text/babel" src="components/SocialProof.jsx"></script>
-  <script type="text/babel" src="components/ProblemMechanism.jsx"></script>
-  <script type="text/babel" src="components/HowItWorks.jsx"></script>
-  <script type="text/babel" src="components/Objections.jsx"></script>
-  <script type="text/babel" src="components/Founders.jsx"></script>
-  <script type="text/babel" src="components/FinalCTA.jsx"></script>
-  <script type="text/babel" src="components/Footer.jsx"></script>
-
   <script type="text/babel">
-    const { useEffect } = React;
+    const { useState, useEffect, useRef } = React;
 
+    /* ── Scroll animation hook ── */
+    function useScrollReveal(threshold = 0.15) {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const obs = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { el.classList.add('visible'); obs.disconnect(); }
+        }, { threshold });
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, []);
+      return ref;
+    }
+
+    /* ── Button ── */
+    function Button({ variant = 'primary', children, onClick, size = 'md', style: styleProp = {}, ...rest }) {
+      const base = {
+        fontFamily: 'Lexend, sans-serif', fontWeight: 600,
+        fontSize: size === 'lg' ? 15 : 14,
+        padding: size === 'lg' ? '16px 28px' : '13px 22px',
+        borderRadius: 9999, border: 'none', cursor: 'pointer',
+        letterSpacing: '0.01em',
+        transition: 'all 150ms cubic-bezier(0.2,0.8,0.2,1)',
+        display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
+      };
+      const variants = {
+        primary:      { background: 'linear-gradient(135deg, #7d33c3 0%, #9850de 100%)', color: '#fff', boxShadow: '0 6px 20px -6px rgba(125,51,195,0.45)' },
+        secondary:    { background: 'var(--surface-container-highest)', color: 'var(--primary)' },
+        outlineLight: { background: 'transparent', color: '#fff', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.3)' },
+      };
+      return (
+        <button onClick={onClick}
+          style={{ ...base, ...(variants[variant] || variants.primary), ...styleProp }}
+          onMouseEnter={e => e.currentTarget.style.filter = 'brightness(1.07)'}
+          onMouseLeave={e => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.transform = 'scale(1)'; }}
+          onMouseDown={e => e.currentTarget.style.transform = 'scale(0.98)'}
+          onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
+          {...rest}
+        >{children}</button>
+      );
+    }
+
+    /* ── Nav ── */
+    function Nav() {
+      return (
+        <nav style={{
+          padding: '28px 0', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'var(--surface)',
+          borderBottom: '1px solid rgba(201,188,218,0.2)',
+        }}>
+          <a href="#" aria-label="Startup Accountancy — home">
+            <img src="assets/logo.png" alt="Startup Accountancy" style={{ height: 52, width: 'auto' }} />
+          </a>
+        </nav>
+      );
+    }
+
+    /* ── Hero ── */
+    function Hero() {
+      const headRef = useScrollReveal(0.1);
+      const videoRef = useScrollReveal(0.1);
+      const proofRef = useScrollReveal(0.1);
+      return (
+        <section style={{ position: 'relative', padding: '72px 48px 56px', overflow: 'hidden', background: 'var(--surface)' }}>
+          <div aria-hidden style={{ position: 'absolute', top: -200, right: -180, width: 800, height: 800, background: 'radial-gradient(circle, rgba(152,80,222,0.18), transparent 60%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+          <div aria-hidden style={{ position: 'absolute', bottom: -180, left: -160, width: 540, height: 540, background: 'radial-gradient(circle, rgba(221,237,46,0.12), transparent 60%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+
+          <div className="grid-responsive" style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.45fr 1fr', gap: 56, alignItems: 'start', position: 'relative' }}>
+            {/* Video */}
+            <div ref={videoRef} className="animate-on-scroll">
+              <VideoCard />
+            </div>
+
+            {/* Headline + CTA */}
+            <div ref={headRef} className="animate-on-scroll delay-1">
+              <span className="overline" style={{ display: 'inline-block', marginBottom: 18 }}>Watch first · 90 seconds</span>
+              <h1 style={{ fontFamily: 'Questrial', fontSize: 'clamp(2.5rem, 4.2vw, 3.9rem)', lineHeight: 1.02, letterSpacing: '-0.02em', margin: '0 0 22px', color: 'var(--on-background)' }}>
+                Your accounting software<br/>is probably{' '}
+                <span style={{ background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>set up wrong.</span>
+              </h1>
+              <p style={{ fontFamily: 'Lexend', fontSize: 18, lineHeight: 1.6, color: 'var(--on-surface-variant)', maxWidth: 480, margin: '0 0 26px' }}>
+                We'll show you exactly how — in one free session. No pitch. No obligation. No sales script disguised as advice.
+              </p>
+              <Button variant="primary" size="lg">Book your complimentary setup review →</Button>
+              <div style={{ marginTop: 12, fontFamily: 'Lexend', fontSize: 13, color: 'var(--on-surface-variant)' }}>
+                Available this week · 45 minutes · no charge
+              </div>
+              <div style={{ marginTop: 26, paddingTop: 20, borderTop: '1px solid rgba(201,188,218,0.35)' }}>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 8 }}>
+                  {[
+                    ['Built by founders', 'Marc & James have raised, hired, missed burn.'],
+                    ['Xero · QuickBooks · Sage', "We work with whatever you're already on."],
+                    ['Fixed fees from £345/mo', 'If you want us after. Everything included.'],
+                  ].map(([t, s]) => (
+                    <li key={t} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', fontFamily: 'Lexend', fontSize: 13.5 }}>
+                      <i data-lucide="check" style={{ width: 16, height: 16, strokeWidth: 2, color: 'var(--tertiary)', flexShrink: 0, marginTop: 3 }} />
+                      <span><strong style={{ color: 'var(--on-background)', fontWeight: 600 }}>{t}.</strong> <span style={{ color: 'var(--on-surface-variant)' }}>{s}</span></span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Social proof strip */}
+          <div ref={proofRef} className="animate-on-scroll delay-2" style={{ maxWidth: 1280, margin: '44px auto 0', background: 'var(--surface-container-lowest)', borderRadius: 20, padding: '22px 28px', boxShadow: 'var(--shadow-lift)', display: 'grid', gridTemplateColumns: 'auto 1fr auto auto auto', gap: 28, alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ display: 'flex', gap: 2 }}>
+                {[0,1,2,3,4].map(i => <i key={i} data-lucide="star" style={{ width: 16, height: 16, color: '#f6b800', fill: '#f6b800', strokeWidth: 1.5 }} />)}
+              </div>
+              <div style={{ fontFamily: 'Lexend', fontSize: 13 }}>
+                <div style={{ fontWeight: 600, color: 'var(--on-background)', lineHeight: 1.1 }}>4.9 · Google reviews</div>
+                <div style={{ color: 'var(--on-surface-variant)', fontSize: 11 }}>from 180+ UK founders</div>
+              </div>
+            </div>
+            <div style={{ fontFamily: 'Lexend', fontSize: 13.5, lineHeight: 1.5, color: 'var(--on-background)', fontStyle: 'italic', borderLeft: '2px solid var(--primary)', paddingLeft: 14 }}>
+              "Found three VAT config errors in 20 minutes. Fixed them on the call."
+              <span style={{ color: 'var(--on-surface-variant)', fontStyle: 'normal', marginLeft: 6 }}>— Priya N., seed SaaS founder</span>
+            </div>
+            {[{ v: '1,200+', l: 'founders served' }, { v: '24h', l: 'avg. setup fix' }, { v: '£345', l: 'fixed /mo if after' }].map(m => (
+              <div key={m.l} style={{ textAlign: 'center', paddingLeft: 8, borderLeft: '1px solid rgba(201,188,218,0.4)' }}>
+                <div style={{ fontFamily: 'Questrial', fontSize: 22, color: 'var(--on-background)', letterSpacing: '-0.01em', lineHeight: 1 }}>{m.v}</div>
+                <div style={{ fontFamily: 'Lexend', fontSize: 10.5, fontWeight: 500, color: 'var(--on-surface-variant)', marginTop: 4, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>{m.l}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function VideoCard() {
+      return (
+        <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', boxShadow: 'var(--shadow-float)', background: 'linear-gradient(135deg, #1c0956 0%, #3a1785 45%, #7d33c3 100%)', aspectRatio: '16/10', cursor: 'pointer' }}>
+          <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          <div aria-hidden style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-50%)', width: 400, height: 400, background: 'radial-gradient(circle, rgba(221,237,46,0.25), transparent 60%)', filter: 'blur(60px)' }} />
+          <div style={{ position: 'absolute', top: 24, left: 28, right: 28, display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'rgba(255,255,255,0.85)', fontFamily: 'Lexend', fontSize: 13, fontWeight: 500 }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ff5a5a', display: 'inline-block' }} />
+              Marc · Co-founder
+            </span>
+            <span>1:42</span>
+          </div>
+          <div style={{ position: 'absolute', bottom: 24, left: 28, right: 28, color: '#fff' }}>
+            <div style={{ fontFamily: 'Lexend', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--tertiary-container)', marginBottom: 6 }}>90-second walk-through</div>
+            <div style={{ fontFamily: 'Questrial', fontSize: 26, letterSpacing: '-0.01em', lineHeight: 1.1 }}>What's wrong with most founder setups — and how we fix it.</div>
+          </div>
+          <button aria-label="Play video" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 88, height: 88, borderRadius: '50%', background: 'rgba(255,255,255,0.95)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 60px -12px rgba(0,0,0,0.4)', transition: 'transform 240ms cubic-bezier(0.2,0.8,0.2,1)' }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'translate(-50%,-50%) scale(1.06)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'translate(-50%,-50%) scale(1)'}>
+            <div style={{ width: 0, height: 0, borderLeft: '22px solid var(--primary)', borderTop: '14px solid transparent', borderBottom: '14px solid transparent', marginLeft: 6 }} />
+          </button>
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: 'rgba(255,255,255,0.15)' }}>
+            <div style={{ width: '12%', height: '100%', background: 'var(--tertiary-container)' }} />
+          </div>
+        </div>
+      );
+    }
+
+    /* ── Social Proof ── */
+    function SocialProof() {
+      const headRef = useScrollReveal();
+      return (
+        <section style={{ padding: '72px 48px 88px', background: 'var(--surface-container-low)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div ref={headRef} className="animate-on-scroll" style={{ textAlign: 'center', marginBottom: 44 }}>
+              <span className="overline">What founders said after</span>
+              <h2 style={{ fontFamily: 'Questrial', fontSize: 'clamp(1.75rem, 2.6vw, 2.25rem)', lineHeight: 1.2, letterSpacing: '-0.02em', margin: '12px auto 0', maxWidth: 640, color: 'var(--on-background)' }}>
+                Most founders leave the session with a list of fixes — and no pitch to decline.
+              </h2>
+            </div>
+            <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+              {[
+                { q: "Found three VAT config errors in 20 minutes. Fixed them on the call.", a: 'Priya N.', r: 'SaaS founder · £1.8M raised', stat: { l: 'Errors caught', v: '3' } },
+                { q: "Best 45 minutes I've spent on admin since incorporating.", a: 'Tom H.', r: 'D2C founder · London', stat: { l: 'Time to clarity', v: '45 min' } },
+                { q: "Told us exactly what was wrong. Didn't try to sell us anything. Unusual.", a: 'Alex & Sam', r: 'Fintech co-founders · 8 months in', stat: { l: 'Sales pressure', v: 'Zero' } },
+              ].map((t, i) => {
+                const ref = useScrollReveal();
+                return (
+                  <div key={i} ref={ref} className={`animate-on-scroll delay-${i+1}`} style={{ background: 'var(--surface-container-lowest)', borderRadius: 20, padding: 28, boxShadow: 'var(--shadow-lift)', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontFamily: 'Questrial', fontSize: 42, color: 'var(--primary)', lineHeight: 0.8, marginBottom: 4 }}>&ldquo;</div>
+                    <p style={{ fontFamily: 'Lexend', fontSize: 16, lineHeight: 1.55, color: 'var(--on-background)', margin: '0 0 20px', flex: 1 }}>{t.q}</p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderTop: '1px solid rgba(201,188,218,0.35)', paddingTop: 14 }}>
+                      <div style={{ fontFamily: 'Lexend', fontSize: 13 }}>
+                        <div style={{ fontWeight: 600, color: 'var(--on-background)' }}>{t.a}</div>
+                        <div style={{ color: 'var(--on-surface-variant)', fontSize: 12 }}>{t.r}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontFamily: 'Lexend', fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-surface-variant)' }}>{t.stat.l}</div>
+                        <div style={{ fontFamily: 'Questrial', fontSize: 22, color: 'var(--primary)', letterSpacing: '-0.01em', lineHeight: 1 }}>{t.stat.v}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── Problem / Mechanism ── */
+    function ProblemMechanism() {
+      const leftRef = useScrollReveal();
+      const rightRef = useScrollReveal();
+      return (
+        <section style={{ padding: '96px 48px', background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
+          <div className="grid-responsive" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'stretch' }}>
+            <div ref={leftRef} className="animate-on-scroll">
+              <span className="overline">The problem</span>
+              <h2 style={{ fontFamily: 'Questrial', fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', lineHeight: 1.1, letterSpacing: '-0.02em', margin: '14px 0 20px', color: 'var(--on-background)' }}>
+                Chart of accounts.<br/>VAT scheme.<br/>Bank feed rules.
+              </h2>
+              <p style={{ fontFamily: 'Lexend', fontSize: 17, lineHeight: 1.65, color: 'var(--on-surface-variant)', margin: '0 0 18px' }}>
+                Nobody told you any of it. Not when you incorporated, not when you signed up for Xero, not when HMRC first came knocking.
+              </p>
+              <p style={{ fontFamily: 'Lexend', fontSize: 17, lineHeight: 1.65, color: 'var(--on-background)', margin: 0, fontWeight: 500 }}>
+                By the time they do, it costs{' '}
+                <span style={{ background: 'var(--tertiary-container)', padding: '2px 8px', borderRadius: 4, color: 'var(--on-tertiary-container)', fontWeight: 600 }}>more to fix than to do right</span>{' '}
+                the first time.
+              </p>
+              <div style={{ marginTop: 36, background: 'var(--surface-container-lowest)', borderRadius: 16, padding: 24, boxShadow: 'var(--shadow-lift)' }}>
+                <span className="overline" style={{ color: 'var(--on-surface-variant)' }}>What we usually find</span>
+                <div style={{ marginTop: 14, display: 'grid', gap: 10 }}>
+                  {[
+                    ['Chart of accounts misaligned with UK GAAP', '73% of new setups'],
+                    ['VAT scheme wrong for the business model', '41%'],
+                    ['Bank feed rules creating phantom duplicates', '58%'],
+                    ['Director loan account untracked', '62%'],
+                  ].map(([label, stat]) => (
+                    <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, fontFamily: 'Lexend', fontSize: 14 }}>
+                      <span style={{ color: 'var(--on-background)' }}>{label}</span>
+                      <span style={{ color: 'var(--primary)', fontWeight: 600, fontSize: 13 }}>{stat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div ref={rightRef} className="animate-on-scroll delay-1" style={{ background: 'linear-gradient(135deg, #7d33c3 0%, #9850de 100%)', borderRadius: 24, padding: 40, color: '#fff', boxShadow: 'var(--shadow-float)', position: 'relative', overflow: 'hidden' }}>
+              <div aria-hidden style={{ position: 'absolute', top: -80, right: -80, width: 300, height: 300, background: 'radial-gradient(circle, rgba(221,237,46,0.25), transparent 60%)', filter: 'blur(40px)' }} />
+              <div style={{ position: 'relative' }}>
+                <span style={{ fontFamily: 'Lexend', fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--tertiary-container)' }}>The mechanism</span>
+                <h3 style={{ fontFamily: 'Questrial', fontSize: 'clamp(1.75rem, 2.6vw, 2.25rem)', lineHeight: 1.1, letterSpacing: '-0.02em', margin: '10px 0 6px' }}>
+                  The Accounting Software<br/>Setup Review.
+                </h3>
+                <p style={{ fontFamily: 'Lexend', fontSize: 15, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)', margin: '0 0 26px' }}>
+                  One call. No charge. A specific, deliverable-led session — not "a consultation."
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 14 }}>
+                  {[
+                    'Review how your Xero, QuickBooks, or Sage is currently configured.',
+                    'Tell you exactly what is set up incorrectly — and why it matters.',
+                    'Show you what the correct configuration looks like.',
+                    'Walk you through the changes, live on the call, if you want.',
+                  ].map((t, i) => (
+                    <li key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', fontFamily: 'Lexend', fontSize: 15, lineHeight: 1.5 }}>
+                      <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--tertiary-container)', color: 'var(--on-tertiary-container)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>{i+1}</span>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.18)', fontFamily: 'Lexend', fontSize: 14, lineHeight: 1.55, color: 'rgba(255,255,255,0.85)' }}>
+                  At the end, you'll know exactly where your setup stands.{' '}
+                  <span style={{ color: '#fff', fontWeight: 500 }}>Act on it yourself, or ask us to take it from there. Either is fine.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── How It Works ── */
+    function HowItWorks() {
+      const headRef = useScrollReveal();
+      const steps = [
+        { n: '01', t: 'Pick a slot', d: 'Grab a 45-minute window on the calendar below.', icon: 'calendar' },
+        { n: '02', t: 'Share your login', d: "Xero, QuickBooks, or Sage. That's the only thing to prepare.", icon: 'key-round' },
+        { n: '03', t: 'We meet', d: 'Review your setup. No fluff. No pitch.', icon: 'video' },
+        { n: '04', t: 'You leave with clarity', d: 'Clear picture of where things stand — and what to do next.', icon: 'check-check' },
+      ];
+      return (
+        <section style={{ padding: '96px 48px', background: 'var(--surface-container-low)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div ref={headRef} className="animate-on-scroll" style={{ textAlign: 'center', marginBottom: 48 }}>
+              <span className="overline">How it works</span>
+              <h2 style={{ fontFamily: 'Questrial', fontSize: 'clamp(2rem, 3vw, 2.75rem)', lineHeight: 1.1, letterSpacing: '-0.02em', margin: '12px auto 0', maxWidth: 640, color: 'var(--on-background)' }}>
+                Four steps. That's all.
+              </h2>
+            </div>
+            <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+              {steps.map((s, i) => {
+                const ref = useScrollReveal();
+                return (
+                  <div key={s.n} ref={ref} className={`animate-on-scroll delay-${i+1}`} style={{ background: 'var(--surface-container-lowest)', borderRadius: 20, padding: 28, boxShadow: 'var(--shadow-lift)', position: 'relative' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--primary-container)', opacity: 0.12, position: 'absolute' }} />
+                      <i data-lucide={s.icon} style={{ width: 22, height: 22, strokeWidth: 1.5, color: 'var(--primary)', position: 'relative', marginLeft: 11 }} />
+                      <span style={{ marginLeft: 'auto', fontFamily: 'Questrial', fontSize: 24, color: 'var(--on-surface-variant)', opacity: 0.35, letterSpacing: '-0.02em', lineHeight: 1 }}>{s.n}</span>
+                    </div>
+                    <h4 style={{ fontFamily: 'Questrial', fontSize: 20, letterSpacing: '-0.01em', margin: '0 0 6px', color: 'var(--on-background)' }}>{s.t}</h4>
+                    <p style={{ fontFamily: 'Lexend', fontSize: 14, lineHeight: 1.55, color: 'var(--on-surface-variant)', margin: 0 }}>{s.d}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── Objections ── */
+    function Objections() {
+      const [open, setOpen] = useState(0);
+      const headRef = useScrollReveal();
+      const items = [
+        { q: 'Is this a sales call?', a: "No. It's a working session, not a pitch. We look at your actual setup, tell you what's wrong, and show you what right looks like. If at the end you want us to manage your accounting going forward, we'll tell you how that works. If you just want the session and nothing else, that's completely fine." },
+        { q: 'I already have an accountant.', a: "Then let us make sure your setup is right before they inherit it. Most accountants find configuration problems at year-end. We'll tell you now, for nothing, so it doesn't become a problem later." },
+        { q: 'My books are a mess — is it too late?', a: "That's exactly the situation this session is designed for. We've reviewed setups in every state imaginable. We'll tell you honestly what it would take to sort it out and what your options are. No judgement." },
+      ];
+      return (
+        <section style={{ padding: '96px 48px', background: 'var(--surface)' }}>
+          <div style={{ maxWidth: 820, margin: '0 auto' }}>
+            <div ref={headRef} className="animate-on-scroll" style={{ textAlign: 'center', marginBottom: 44 }}>
+              <span className="overline">Three things you're probably thinking</span>
+              <h2 style={{ fontFamily: 'Questrial', fontSize: 'clamp(2rem, 3vw, 2.75rem)', lineHeight: 1.1, letterSpacing: '-0.02em', margin: '12px auto 0', color: 'var(--on-background)' }}>The honest answers, up front.</h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {items.map((it, i) => {
+                const isOpen = open === i;
+                const ref = useScrollReveal();
+                return (
+                  <div key={i} ref={ref} className={`animate-on-scroll delay-${i+1}`} style={{ background: isOpen ? 'var(--surface-container-lowest)' : 'var(--surface-container-low)', borderRadius: 16, padding: '4px 26px', boxShadow: isOpen ? 'var(--shadow-lift)' : 'none', transition: 'all 240ms cubic-bezier(0.2,0.8,0.2,1)' }}>
+                    <button onClick={() => setOpen(isOpen ? -1 : i)} style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', padding: '22px 0', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontFamily: 'Questrial', fontSize: 20, color: 'var(--on-background)', letterSpacing: '-0.01em' }}>
+                      {it.q}
+                      <i data-lucide={isOpen ? 'minus' : 'plus'} style={{ width: 22, height: 22, color: 'var(--primary)', strokeWidth: 1.5 }} />
+                    </button>
+                    {isOpen && <p style={{ fontFamily: 'Lexend', fontSize: 16, lineHeight: 1.65, color: 'var(--on-surface-variant)', margin: '0 0 22px', maxWidth: 680 }}>{it.a}</p>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── Founders ── */
+    function Founders() {
+      const leftRef = useScrollReveal();
+      const rightRef = useScrollReveal();
+      return (
+        <section style={{ padding: '96px 48px', background: 'var(--surface-container-low)' }}>
+          <div className="grid-responsive" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 56, alignItems: 'center' }}>
+            <div ref={leftRef} className="animate-on-scroll" style={{ display: 'flex', gap: 18 }}>
+              {[
+                { n: 'Marc', role: 'Co-founder', gradient: 'linear-gradient(140deg, #3a1785 0%, #7d33c3 100%)' },
+                { n: 'James', role: 'Co-founder', gradient: 'linear-gradient(140deg, #7d33c3 0%, #c48ef0 100%)' },
+              ].map((p, i) => (
+                <div key={p.n} style={{ flex: 1, aspectRatio: '3/4', borderRadius: 20, background: p.gradient, boxShadow: 'var(--shadow-float)', position: 'relative', overflow: 'hidden', transform: i === 0 ? 'translateY(-12px)' : 'translateY(12px)' }}>
+                  <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+                  <div style={{ position: 'absolute', bottom: 20, left: 22, right: 22, color: '#fff' }}>
+                    <div style={{ fontFamily: 'Lexend', fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--tertiary-container)' }}>{p.role}</div>
+                    <div style={{ fontFamily: 'Questrial', fontSize: 26, letterSpacing: '-0.01em', marginTop: 2 }}>{p.n}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div ref={rightRef} className="animate-on-scroll delay-1">
+              <span className="overline">Marc & James · founders</span>
+              <h2 style={{ fontFamily: 'Questrial', fontSize: 'clamp(2rem, 3vw, 2.75rem)', lineHeight: 1.1, letterSpacing: '-0.02em', margin: '12px 0 20px', color: 'var(--on-background)' }}>
+                We're not career accountants who advise founders.{' '}
+                <span style={{ background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>We're founders who do accounting.</span>
+              </h2>
+              <p style={{ fontFamily: 'Lexend', fontSize: 17, lineHeight: 1.65, color: 'var(--on-surface-variant)', margin: '0 0 16px' }}>
+                Marc and James have raised money, hired teams, missed burn targets, and sat in boardrooms the night before investor meetings. They've been on your side of the table.
+              </p>
+              <p style={{ fontFamily: 'Lexend', fontSize: 17, lineHeight: 1.65, color: 'var(--on-surface-variant)', margin: 0 }}>
+                They built Startup Accountancy because they know what founders actually need from an accountant — and how far most traditional firms fall short.
+              </p>
+              <div style={{ marginTop: 32, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, paddingTop: 24, borderTop: '1px solid rgba(201,188,218,0.4)' }}>
+                {[
+                  { v: '£12M+', l: "raised by founders we've worked with" },
+                  { v: '1,200+', l: 'founders served across the UK' },
+                  { v: '24h', l: 'typical turnaround on setup' },
+                ].map(s => (
+                  <div key={s.l}>
+                    <div style={{ fontFamily: 'Questrial', fontSize: 30, color: 'var(--on-background)', letterSpacing: '-0.02em', lineHeight: 1 }}>{s.v}</div>
+                    <div style={{ fontFamily: 'Lexend', fontSize: 12, lineHeight: 1.4, color: 'var(--on-surface-variant)', marginTop: 6 }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── Final CTA ── */
+    function FinalCTA() {
+      const ref = useScrollReveal(0.1);
+      const days = [
+        { d: 'Mon', n: 22, state: 'off' }, { d: 'Tue', n: 23, state: 'on' },
+        { d: 'Wed', n: 24, state: 'picked' }, { d: 'Thu', n: 25, state: 'on' }, { d: 'Fri', n: 26, state: 'on' },
+      ];
+      const slots = ['09:30', '10:15', '11:00', '14:30', '15:30', '16:15'];
+      return (
+        <section style={{ padding: '96px 48px', background: 'var(--surface)' }}>
+          <div ref={ref} className="animate-on-scroll" style={{ maxWidth: 1200, margin: '0 auto', background: 'linear-gradient(135deg, #1c0956 0%, #3a1785 55%, #7d33c3 100%)', borderRadius: 32, padding: '72px 64px', position: 'relative', overflow: 'hidden', boxShadow: '0 24px 64px -16px rgba(28,9,86,0.35)' }}>
+            <div aria-hidden style={{ position: 'absolute', top: -120, right: -80, width: 500, height: 500, background: 'radial-gradient(circle, rgba(221,237,46,0.22), transparent 60%)', filter: 'blur(40px)' }} />
+            <div aria-hidden style={{ position: 'absolute', bottom: -180, left: -100, width: 420, height: 420, background: 'radial-gradient(circle, rgba(152,80,222,0.35), transparent 60%)', filter: 'blur(40px)' }} />
+            <div className="grid-responsive" style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 56, alignItems: 'center' }}>
+              <div>
+                <span style={{ fontFamily: 'Lexend', fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--tertiary-container)' }}>If you work with us after</span>
+                <h2 style={{ fontFamily: 'Questrial', fontSize: 'clamp(2.25rem, 3.6vw, 3.25rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: '#fff', margin: '14px 0 18px' }}>
+                  Get your books set up<br/><span style={{ color: 'var(--tertiary-container)' }}>right</span> — in one session.
+                </h2>
+                <p style={{ fontFamily: 'Lexend', fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.82)', margin: '0 0 28px', maxWidth: 480 }}>
+                  We review your setup. We tell you what needs fixing. We show you how. No charge. No obligation.
+                </p>
+                <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 10, padding: '14px 20px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 16 }}>
+                  <span style={{ fontFamily: 'Questrial', fontSize: 36, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>£345</span>
+                  <span style={{ fontFamily: 'Lexend', fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>/mo · everything included · no year-end bills</span>
+                </div>
+                <div style={{ marginTop: 18, fontFamily: 'Lexend', fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>
+                  The setup review itself?{' '}
+                  <span style={{ background: 'var(--tertiary-container)', color: 'var(--on-tertiary-container)', padding: '2px 10px', borderRadius: 4, fontWeight: 600 }}>Complimentary.</span>
+                </div>
+              </div>
+              <div style={{ background: 'var(--surface-container-lowest)', borderRadius: 20, padding: 28, boxShadow: '0 20px 60px -12px rgba(0,0,0,0.3)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+                  <div>
+                    <span className="overline" style={{ color: 'var(--primary)' }}>Book your session</span>
+                    <div style={{ fontFamily: 'Questrial', fontSize: 22, color: 'var(--on-background)', letterSpacing: '-0.01em', marginTop: 2 }}>This week</div>
+                  </div>
+                  <div style={{ fontFamily: 'Lexend', fontSize: 12, color: 'var(--on-surface-variant)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <i data-lucide="chevron-left" style={{ width: 16, height: 16 }} />
+                    Apr 2026
+                    <i data-lucide="chevron-right" style={{ width: 16, height: 16, color: 'var(--primary)' }} />
+                  </div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8 }}>
+                  {days.map(day => (
+                    <button key={day.n} style={{ padding: '12px 0', borderRadius: 12, cursor: 'pointer', background: day.state === 'picked' ? 'var(--primary)' : day.state === 'on' ? 'var(--surface-container-low)' : 'transparent', color: day.state === 'picked' ? '#fff' : day.state === 'off' ? 'var(--on-surface-variant)' : 'var(--on-background)', opacity: day.state === 'off' ? 0.4 : 1, border: 'none', fontFamily: 'Lexend', textAlign: 'center' }}>
+                      <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', opacity: 0.7, marginBottom: 2 }}>{day.d}</div>
+                      <div style={{ fontSize: 18, fontWeight: 500 }}>{day.n}</div>
+                    </button>
+                  ))}
+                </div>
+                <div style={{ marginTop: 20, paddingTop: 18, borderTop: '1px solid rgba(201,188,218,0.4)' }}>
+                  <div style={{ fontFamily: 'Lexend', fontSize: 13, fontWeight: 600, color: 'var(--on-background)', marginBottom: 10 }}>
+                    Wed 24 April <span style={{ color: 'var(--on-surface-variant)', fontWeight: 400, marginLeft: 6 }}>· GMT</span>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {slots.map((t, i) => (
+                      <button key={t} style={{ padding: '7px 14px', borderRadius: 999, background: i === 2 ? 'var(--primary)' : 'var(--surface-container-low)', color: i === 2 ? '#fff' : 'var(--on-background)', border: 'none', cursor: 'pointer', fontFamily: 'Lexend', fontSize: 13, fontWeight: 500 }}>{t}</button>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ marginTop: 20 }}>
+                  <Button variant="primary" size="lg" style={{ width: '100%', justifyContent: 'center' }}>Confirm · Wed 11:00 →</Button>
+                  <div style={{ marginTop: 10, textAlign: 'center', fontFamily: 'Lexend', fontSize: 12, color: 'var(--on-surface-variant)' }}>One thing to prepare: your software login.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ── Footer ── */
+    function Footer() {
+      const cols = [
+        { h: 'Services', links: ['Setup review','Bookkeeping','VAT & Corp Tax','Fractional CFO'] },
+        { h: 'Company',  links: ['About','Clients','Careers','Press'] },
+        { h: 'Resources',links: ['Pricing','Blog','Guides','Help'] },
+        { h: 'Legal',    links: ['Terms','Privacy','Security','ICO reg.'] },
+      ];
+      return (
+        <footer style={{ background: 'var(--on-background)', color: 'rgba(255,255,255,0.85)', padding: '72px 48px 36px' }}>
+          <div className="grid-responsive" style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.4fr repeat(4, 1fr)', gap: 48 }}>
+            <div>
+              <div style={{ fontFamily: 'Questrial', fontSize: 22, color: '#fff', letterSpacing: '-0.01em', marginBottom: 14 }}>Startup Accountancy</div>
+              <p style={{ fontFamily: 'Lexend', fontSize: 13, lineHeight: 1.6, color: 'rgba(255,255,255,0.6)', margin: 0, maxWidth: 280 }}>Accounting for UK founders — built by founders who've been where you are.</p>
+            </div>
+            {cols.map(c => (
+              <div key={c.h}>
+                <div style={{ fontFamily: 'Lexend', fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--tertiary-container)', marginBottom: 14 }}>{c.h}</div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {c.links.map(l => <li key={l} style={{ fontFamily: 'Lexend', fontSize: 13, padding: '5px 0' }}><a href="#" style={{ color: 'rgba(255,255,255,0.75)' }}>{l}</a></li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div style={{ maxWidth: 1200, margin: '48px auto 0', paddingTop: 22, borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Lexend', fontSize: 12, color: 'rgba(255,255,255,0.45)', flexWrap: 'wrap', gap: 12 }}>
+            <span>© 2026 Startup Accountancy Ltd · Registered in England & Wales</span>
+            <span>Built by founders, not career accountants.</span>
+          </div>
+        </footer>
+      );
+    }
+
+    /* ── App ── */
     function App() {
       useEffect(() => {
         const hydrate = () => window.lucide && window.lucide.createIcons();
