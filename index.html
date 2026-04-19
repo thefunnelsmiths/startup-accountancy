@@ -412,8 +412,7 @@ function FinalCTA() {
   function handleSubmit(ev) {
     ev.preventDefault();
     setLoading(true);
-    var params = new URLSearchParams({ first_name: form.firstName, email: form.email, phone: form.phone });
-    var calendarUrl = 'https://api.leadconnectorhq.com/widget/booking/5hjTB66wPSkoS6alfnlS?' + params.toString();
+    var calendarUrl = 'https://api.leadconnectorhq.com/widget/booking/5hjTB66wPSkoS6alfnlS';
     var webhookUrl = window.GHL_WEBHOOK_URL || '';
     var redirect = function() { window.location.href = calendarUrl; };
     if (webhookUrl) { fetch(webhookUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }) }).catch(function(){}).finally(redirect); }
