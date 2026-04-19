@@ -130,7 +130,7 @@ function Hero() {
         e('p', { style: { fontFamily: 'Lexend', fontSize: 18, lineHeight: 1.6, color: 'var(--on-surface-variant)', maxWidth: 480, margin: '0 0 26px' } },
           "We'll show you exactly how — in one free session. No pitch. No obligation. No sales script disguised as advice."
         ),
-        e(Button, { variant: 'primary', size: 'lg' }, 'Book your complimentary setup review →'),
+        e(Button, { variant: 'primary', size: 'lg', onClick: function(){ document.getElementById('book').scrollIntoView({ behavior: 'smooth' }); } }, 'Book your complimentary setup review →'),
         e('div', { style: { marginTop: 12, fontFamily: 'Lexend', fontSize: 13, color: 'var(--on-surface-variant)' } }, 'Available this week · 45 minutes · no charge'),
         e('div', { style: { marginTop: 26, paddingTop: 20, borderTop: '1px solid rgba(201,188,218,0.35)' } },
           e('ul', { style: { listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 8 } },
@@ -412,9 +412,9 @@ function FinalCTA() {
     ev.preventDefault();
     setLoading(true);
     var url = window.GHL_WEBHOOK_URL || '';
-    var done = function() { setLoading(false); setSubmitted(true); };
-    if (url) { fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }) }).catch(function(){}).finally(done); }
-    else { done(); }
+    var redirect = function() { window.location.href = 'book.html'; };
+    if (url) { fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ firstName: form.firstName, email: form.email, phone: form.phone }) }).catch(function(){}).finally(redirect); }
+    else { redirect(); }
   }
   var inputStyle = { width:'100%', boxSizing:'border-box', padding:'13px 16px', fontFamily:'Lexend', fontSize:15, color:'var(--on-background)', background:'var(--surface-container-low)', border:'1.5px solid rgba(201,188,218,0.4)', borderRadius:12, outline:'none' };
   var labelStyle = { display:'block', fontFamily:'Lexend', fontSize:12, fontWeight:600, letterSpacing:'0.06em', textTransform:'uppercase', color:'var(--on-surface-variant)', marginBottom:6 };
@@ -423,7 +423,7 @@ function FinalCTA() {
     'Fix any issues in the session, live',
     'Walk away with everything set up correctly',
   ];
-  return e('section', { style: { padding: '96px 48px', background: 'var(--surface)' } },
+  return e('section', { id: 'book', style: { padding: '96px 48px', background: 'var(--surface)' } },
     e(Reveal, { delay: 'd1' },
       e('div', { style: { maxWidth: 1200, margin: '0 auto', background: 'linear-gradient(135deg,#1c0956 0%,#3a1785 55%,#7d33c3 100%)', borderRadius: 32, padding: '72px 64px', position: 'relative', overflow: 'hidden', boxShadow: '0 24px 64px -16px rgba(28,9,86,0.35)' } },
         e('div', { 'aria-hidden': true, style: { position: 'absolute', top: -120, right: -80, width: 500, height: 500, background: 'radial-gradient(circle,rgba(221,237,46,0.22),transparent 60%)', filter: 'blur(40px)' } }),
