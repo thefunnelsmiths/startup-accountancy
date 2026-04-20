@@ -1,0 +1,551 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Lexend:wght@300;400;500;600;700&display=swap');
+
+#sa-embed {
+  --primary: #7d33c3;
+  --on-bg: #1c0956;
+  --surface: #fdf8ff;
+  --surface-low: #f6eefb;
+  --surface-white: #ffffff;
+  --muted: #5a4a7a;
+  --lime: #dded2e;
+  --lime-fg: #1a1d00;
+  --outline: rgba(201,188,218,0.4);
+  --shadow-lift: 0 2px 12px -2px rgba(28,9,86,0.06);
+  --shadow-float: 0 16px 48px -12px rgba(28,9,86,0.12);
+  font-family: 'Lexend', system-ui, sans-serif;
+  background: #fdf8ff;
+  color: #1c0956;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+#sa-embed *, #sa-embed *::before, #sa-embed *::after { box-sizing: border-box; }
+#sa-embed a { text-decoration: none; }
+#sa-embed button { cursor: pointer; font-family: inherit; }
+#sa-embed img { max-width: 100%; display: block; }
+#sa-embed ul { list-style: none; padding: 0; margin: 0; }
+
+/* ── Overline ── */
+#sa-embed .sa-ol {
+  display: block; font-family: 'Lexend', sans-serif; font-size: 11px;
+  font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7d33c3;
+}
+
+/* ── Reveal ── */
+@keyframes sa-up { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+#sa-embed .sa-r { opacity: 0; }
+#sa-embed .sa-r.in { animation: sa-up 0.55s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+#sa-embed .sa-r.d1.in { animation-delay:.08s; }
+#sa-embed .sa-r.d2.in { animation-delay:.16s; }
+#sa-embed .sa-r.d3.in { animation-delay:.24s; }
+#sa-embed .sa-r.d4.in { animation-delay:.32s; }
+
+/* ── Button ── */
+#sa-embed .sa-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'Lexend',sans-serif; font-weight:600; font-size:15px;
+  padding:16px 28px; border-radius:9999px; border:none; cursor:pointer;
+  letter-spacing:0.01em; transition:filter 150ms,transform 150ms; white-space:nowrap;
+  background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);
+  color:#fff; box-shadow:0 6px 20px -6px rgba(125,51,195,0.45);
+}
+#sa-embed .sa-btn:hover { filter:brightness(1.07); }
+#sa-embed .sa-btn:active { transform:scale(0.98); }
+#sa-embed .sa-btn:disabled { opacity:0.7; cursor:not-allowed; }
+
+/* ── Grids ── */
+#sa-embed .sa-g2   { display:grid; grid-template-columns:1fr 1.1fr; gap:56px; align-items:center; }
+#sa-embed .sa-ghero { display:grid; grid-template-columns:1.45fr 1fr; gap:56px; align-items:start; }
+#sa-embed .sa-g3   { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+#sa-embed .sa-g4   { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+#sa-embed .sa-gfoot { display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:48px; }
+
+/* ── Accordion ── */
+#sa-embed details { background:#f6eefb; border-radius:16px; padding:4px 26px; margin-bottom:10px; transition:background 240ms; }
+#sa-embed details[open] { background:#fff; box-shadow:var(--shadow-lift); }
+#sa-embed details summary {
+  list-style:none; padding:22px 0; cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:'Questrial',sans-serif; font-size:20px; color:#1c0956;
+  letter-spacing:-0.01em; user-select:none;
+}
+#sa-embed details summary::-webkit-details-marker { display:none; }
+#sa-embed .sa-plus { display:inline-flex; }
+#sa-embed .sa-minus { display:none; }
+#sa-embed details[open] .sa-plus { display:none; }
+#sa-embed details[open] .sa-minus { display:inline-flex; }
+#sa-embed .sa-abody { font-family:'Lexend',sans-serif; font-size:16px; line-height:1.65; color:#5a4a7a; margin:0 0 22px; max-width:680px; }
+
+/* ── Form ── */
+#sa-embed .sa-inp {
+  width:100%; padding:13px 16px;
+  font-family:'Lexend',sans-serif; font-size:15px; color:#1c0956;
+  background:#f6eefb; border:1.5px solid rgba(201,188,218,0.4);
+  border-radius:12px; outline:none; transition:border-color 150ms;
+}
+#sa-embed .sa-inp:focus { border-color:#7d33c3; }
+#sa-embed .sa-lbl {
+  display:block; font-family:'Lexend',sans-serif; font-size:12px;
+  font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+  color:#5a4a7a; margin-bottom:6px;
+}
+
+/* ── Section spacing ── */
+#sa-embed .sa-sec { padding:96px 48px; }
+#sa-embed .sa-wrap { max-width:1200px; margin:0 auto; }
+
+/* ── 960px ── */
+@media (max-width:960px) {
+  #sa-embed .sa-sec,
+  #sa-embed .sa-hero-sec { padding:64px 32px !important; }
+  #sa-embed .sa-ghero,
+  #sa-embed .sa-g2,
+  #sa-embed .sa-g3,
+  #sa-embed .sa-g4 { grid-template-columns:1fr !important; gap:32px !important; }
+  #sa-embed .sa-gfoot { grid-template-columns:1fr 1fr; gap:24px; }
+  #sa-embed .sa-portraits { flex-direction:column; }
+  #sa-embed .sa-portrait { transform:none !important; max-width:320px; margin:0 auto; }
+  #sa-embed .sa-cta-box { padding:48px 32px !important; }
+  #sa-embed .sa-mbar { grid-template-columns:1fr !important; gap:16px !important; }
+}
+
+/* ── 640px ── */
+@media (max-width:640px) {
+  #sa-embed .sa-sec,
+  #sa-embed .sa-hero-sec { padding:56px 24px !important; }
+  #sa-embed .sa-gfoot { grid-template-columns:1fr; }
+  #sa-embed .sa-cta-outer { padding:48px 16px !important; }
+  #sa-embed .sa-cta-box { padding:32px 20px !important; }
+  #sa-embed .sa-fstats { grid-template-columns:1fr 1fr !important; }
+  #sa-embed .sa-ghero { gap:24px !important; }
+}
+
+/* ── 480px ── */
+@media (max-width:480px) {
+  #sa-embed .sa-sec,
+  #sa-embed .sa-hero-sec { padding:48px 20px !important; }
+  #sa-embed .sa-cta-outer { padding:36px 12px !important; }
+  #sa-embed .sa-cta-box { padding:24px 16px !important; }
+  #sa-embed .sa-fstats { grid-template-columns:1fr !important; }
+  #sa-embed .sa-portrait { max-width:220px; }
+  #sa-embed details summary { font-size:17px; }
+  #sa-embed .sa-btn { font-size:14px; padding:14px 22px; }
+}
+</style>
+
+<div id="sa-embed">
+
+<!-- NAV -->
+<nav style="padding:28px 0;display:flex;align-items:center;justify-content:center;background:#fdf8ff;border-bottom:1px solid rgba(201,188,218,0.2);">
+  <a href="#" aria-label="Startup Accountancy">
+    <img src="https://startup-accountancy.pages.dev/assets/logo.png" alt="Startup Accountancy" style="height:52px;width:auto;" loading="lazy">
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="sa-hero-sec" style="position:relative;padding:72px 48px 56px;overflow:hidden;background:#fdf8ff;">
+  <div aria-hidden="true" style="position:absolute;top:-200px;right:-180px;width:800px;height:800px;background:radial-gradient(circle,rgba(152,80,222,0.18),transparent 60%);filter:blur(60px);pointer-events:none;"></div>
+  <div aria-hidden="true" style="position:absolute;bottom:-180px;left:-160px;width:540px;height:540px;background:radial-gradient(circle,rgba(221,237,46,0.12),transparent 60%);filter:blur(60px);pointer-events:none;"></div>
+  <div style="max-width:1280px;margin:0 auto;position:relative;">
+    <div class="sa-r sa-ghero">
+      <!-- Video card -->
+      <div style="position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-float);background:linear-gradient(135deg,#1c0956 0%,#3a1785 45%,#7d33c3 100%);aspect-ratio:16/10;">
+        <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:40px 40px;"></div>
+        <div aria-hidden="true" style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(221,237,46,0.25),transparent 60%);filter:blur(60px);"></div>
+        <div style="position:absolute;top:24px;left:28px;right:28px;display:flex;justify-content:space-between;color:rgba(255,255,255,0.85);font-family:'Lexend',sans-serif;font-size:13px;font-weight:500;">
+          <span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:#ff5a5a;display:inline-block;"></span>Marc · Co-founder</span>
+          <span>1:42</span>
+        </div>
+        <div style="position:absolute;bottom:24px;left:28px;right:28px;color:#fff;">
+          <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#dded2e;margin-bottom:6px;">90-second walk-through</div>
+          <div style="font-family:'Questrial',sans-serif;font-size:26px;letter-spacing:-0.01em;line-height:1.1;">What's wrong with most founder setups — and how we fix it.</div>
+        </div>
+        <button aria-label="Play video" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.95);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -12px rgba(0,0,0,0.4);">
+          <div style="width:0;height:0;border-left:22px solid #7d33c3;border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px;"></div>
+        </button>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.15);"><div style="width:12%;height:100%;background:#dded2e;"></div></div>
+      </div>
+      <!-- Copy -->
+      <div class="sa-r d1">
+        <span class="sa-ol" style="margin-bottom:18px;">Watch first · 90 seconds</span>
+        <h1 style="font-family:'Questrial',sans-serif;font-size:clamp(2.5rem,4.2vw,3.9rem);line-height:1.02;letter-spacing:-0.02em;margin:0 0 22px;color:#1c0956;">
+          Your accounting software<br>is probably <span style="background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">set up wrong.</span>
+        </h1>
+        <p style="font-family:'Lexend',sans-serif;font-size:18px;line-height:1.6;color:#5a4a7a;max-width:480px;margin:0 0 26px;">We'll show you exactly how — in one free session. No pitch. No obligation. No sales script disguised as advice.</p>
+        <button id="sa-cta" class="sa-btn">Book your complimentary setup review →</button>
+        <div style="margin-top:12px;font-family:'Lexend',sans-serif;font-size:13px;color:#5a4a7a;">Available this week · 45 minutes · no charge</div>
+        <div style="margin-top:26px;padding-top:20px;border-top:1px solid rgba(201,188,218,0.35);">
+          <ul style="display:grid;gap:8px;">
+            <li style="display:flex;gap:12px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:13.5px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#596100" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong style="color:#1c0956;font-weight:600;">Built by founders.</strong> <span style="color:#5a4a7a;">Marc &amp; James have raised, hired, missed burn.</span></span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:13.5px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#596100" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong style="color:#1c0956;font-weight:600;">Xero · QuickBooks · Sage.</strong> <span style="color:#5a4a7a;">We work with whatever you're already on.</span></span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:13.5px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#596100" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong style="color:#1c0956;font-weight:600;">Fixed fees from £345/mo.</strong> <span style="color:#5a4a7a;">If you want us after. Everything included.</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Metrics bar -->
+    <div class="sa-r d2">
+      <div class="sa-mbar" style="margin-top:44px;background:#fff;border-radius:20px;padding:22px 28px;box-shadow:var(--shadow-lift);display:grid;grid-template-columns:auto 1fr auto auto auto;gap:28px;align-items:center;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="display:flex;gap:2px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6b800" stroke="#f6b800" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6b800" stroke="#f6b800" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6b800" stroke="#f6b800" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6b800" stroke="#f6b800" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6b800" stroke="#f6b800" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div style="font-family:'Lexend',sans-serif;font-size:13px;">
+            <div style="font-weight:600;color:#1c0956;line-height:1.1;">4.9 · Google reviews</div>
+            <div style="color:#5a4a7a;font-size:11px;">from 180+ UK founders</div>
+          </div>
+        </div>
+        <div style="font-family:'Lexend',sans-serif;font-size:13.5px;line-height:1.5;color:#1c0956;font-style:italic;border-left:2px solid #7d33c3;padding-left:14px;">"Found three VAT config errors in 20 minutes. Fixed them on the call." <span style="color:#5a4a7a;font-style:normal;">— Priya N., seed SaaS founder</span></div>
+        <div style="text-align:center;padding-left:8px;border-left:1px solid rgba(201,188,218,0.4);">
+          <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#1c0956;letter-spacing:-0.01em;line-height:1;">1,200+</div>
+          <div style="font-family:'Lexend',sans-serif;font-size:10.5px;font-weight:500;color:#5a4a7a;margin-top:4px;white-space:nowrap;">founders served</div>
+        </div>
+        <div style="text-align:center;padding-left:8px;border-left:1px solid rgba(201,188,218,0.4);">
+          <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#1c0956;letter-spacing:-0.01em;line-height:1;">24h</div>
+          <div style="font-family:'Lexend',sans-serif;font-size:10.5px;font-weight:500;color:#5a4a7a;margin-top:4px;white-space:nowrap;">avg. setup fix</div>
+        </div>
+        <div style="text-align:center;padding-left:8px;border-left:1px solid rgba(201,188,218,0.4);">
+          <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#1c0956;letter-spacing:-0.01em;line-height:1;">£345</div>
+          <div style="font-family:'Lexend',sans-serif;font-size:10.5px;font-weight:500;color:#5a4a7a;margin-top:4px;white-space:nowrap;">fixed /mo if after</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="sa-sec" style="background:#f6eefb;">
+  <div class="sa-wrap">
+    <div class="sa-r" style="text-align:center;margin-bottom:44px;">
+      <span class="sa-ol">What founders said after</span>
+      <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.75rem,2.6vw,2.25rem);line-height:1.2;letter-spacing:-0.02em;margin:12px auto 0;max-width:640px;color:#1c0956;">Most founders leave the session with a list of fixes — and no pitch to decline.</h2>
+    </div>
+    <div class="sa-g3">
+      <div class="sa-r d1" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);display:flex;flex-direction:column;">
+        <div style="font-family:'Questrial',sans-serif;font-size:42px;color:#7d33c3;line-height:0.8;margin-bottom:4px;">"</div>
+        <p style="font-family:'Lexend',sans-serif;font-size:16px;line-height:1.55;color:#1c0956;margin:0 0 20px;flex:1;">Found three VAT config errors in 20 minutes. Fixed them on the call.</p>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(201,188,218,0.35);padding-top:14px;">
+          <div style="font-family:'Lexend',sans-serif;font-size:13px;"><div style="font-weight:600;color:#1c0956;">Priya N.</div><div style="color:#5a4a7a;font-size:12px;">SaaS founder · £1.8M raised</div></div>
+          <div style="text-align:right;"><div style="font-family:'Lexend',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a4a7a;">Errors caught</div><div style="font-family:'Questrial',sans-serif;font-size:22px;color:#7d33c3;line-height:1;">3</div></div>
+        </div>
+      </div>
+      <div class="sa-r d2" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);display:flex;flex-direction:column;">
+        <div style="font-family:'Questrial',sans-serif;font-size:42px;color:#7d33c3;line-height:0.8;margin-bottom:4px;">"</div>
+        <p style="font-family:'Lexend',sans-serif;font-size:16px;line-height:1.55;color:#1c0956;margin:0 0 20px;flex:1;">Best 45 minutes I've spent on admin since incorporating.</p>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(201,188,218,0.35);padding-top:14px;">
+          <div style="font-family:'Lexend',sans-serif;font-size:13px;"><div style="font-weight:600;color:#1c0956;">Tom H.</div><div style="color:#5a4a7a;font-size:12px;">D2C founder · London</div></div>
+          <div style="text-align:right;"><div style="font-family:'Lexend',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a4a7a;">Time to clarity</div><div style="font-family:'Questrial',sans-serif;font-size:22px;color:#7d33c3;line-height:1;">45 min</div></div>
+        </div>
+      </div>
+      <div class="sa-r d3" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);display:flex;flex-direction:column;">
+        <div style="font-family:'Questrial',sans-serif;font-size:42px;color:#7d33c3;line-height:0.8;margin-bottom:4px;">"</div>
+        <p style="font-family:'Lexend',sans-serif;font-size:16px;line-height:1.55;color:#1c0956;margin:0 0 20px;flex:1;">Told us exactly what was wrong. Didn't try to sell us anything. Unusual.</p>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(201,188,218,0.35);padding-top:14px;">
+          <div style="font-family:'Lexend',sans-serif;font-size:13px;"><div style="font-weight:600;color:#1c0956;">Alex &amp; Sam</div><div style="color:#5a4a7a;font-size:12px;">Fintech co-founders · 8 months in</div></div>
+          <div style="text-align:right;"><div style="font-family:'Lexend',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5a4a7a;">Sales pressure</div><div style="font-family:'Questrial',sans-serif;font-size:22px;color:#7d33c3;line-height:1;">Zero</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM / MECHANISM -->
+<section class="sa-sec" style="background:#fdf8ff;overflow:hidden;">
+  <div class="sa-wrap">
+    <div class="sa-g2" style="grid-template-columns:1fr 1fr;align-items:stretch;">
+      <div class="sa-r">
+        <span class="sa-ol">The problem</span>
+        <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(2rem,3.2vw,2.75rem);line-height:1.1;letter-spacing:-0.02em;margin:14px 0 20px;color:#1c0956;">Chart of accounts.<br>VAT scheme.<br>Bank feed rules.</h2>
+        <p style="font-family:'Lexend',sans-serif;font-size:17px;line-height:1.65;color:#5a4a7a;margin:0 0 18px;">Nobody told you any of it. Not when you incorporated, not when you signed up for Xero, not when HMRC first came knocking.</p>
+        <p style="font-family:'Lexend',sans-serif;font-size:17px;line-height:1.65;color:#1c0956;margin:0;font-weight:500;">By the time they do, it costs <span style="background:#dded2e;padding:2px 8px;border-radius:4px;color:#1a1d00;font-weight:600;">more to fix than to do right</span> the first time.</p>
+        <div style="margin-top:36px;background:#fff;border-radius:16px;padding:24px;box-shadow:var(--shadow-lift);">
+          <span class="sa-ol" style="color:#5a4a7a;">What we usually find</span>
+          <div style="margin-top:14px;display:grid;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:'Lexend',sans-serif;font-size:14px;"><span style="color:#1c0956;">Chart of accounts misaligned with UK GAAP</span><span style="color:#7d33c3;font-weight:600;font-size:13px;white-space:nowrap;">73% of new setups</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:'Lexend',sans-serif;font-size:14px;"><span style="color:#1c0956;">VAT scheme wrong for the business model</span><span style="color:#7d33c3;font-weight:600;font-size:13px;white-space:nowrap;">41%</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:'Lexend',sans-serif;font-size:14px;"><span style="color:#1c0956;">Bank feed rules creating phantom duplicates</span><span style="color:#7d33c3;font-weight:600;font-size:13px;white-space:nowrap;">58%</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:'Lexend',sans-serif;font-size:14px;"><span style="color:#1c0956;">Director loan account untracked</span><span style="color:#7d33c3;font-weight:600;font-size:13px;white-space:nowrap;">62%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sa-r d1">
+        <div style="height:100%;background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);border-radius:24px;padding:40px;color:#fff;box-shadow:var(--shadow-float);position:relative;overflow:hidden;">
+          <div aria-hidden="true" style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(221,237,46,0.25),transparent 60%);filter:blur(40px);"></div>
+          <div style="position:relative;">
+            <span style="font-family:'Lexend',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;">The mechanism</span>
+            <h3 style="font-family:'Questrial',sans-serif;font-size:clamp(1.75rem,2.6vw,2.25rem);line-height:1.1;letter-spacing:-0.02em;margin:10px 0 6px;">The Accounting Software<br>Setup Review.</h3>
+            <p style="font-family:'Lexend',sans-serif;font-size:15px;line-height:1.6;color:rgba(255,255,255,0.82);margin:0 0 26px;">One call. No charge. A specific, deliverable-led session — not "a consultation."</p>
+            <ul style="display:grid;gap:14px;">
+              <li style="display:flex;gap:14px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;"><span style="width:22px;height:22px;border-radius:50%;background:#dded2e;color:#1a1d00;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">1</span>Review how your Xero, QuickBooks, or Sage is currently configured.</li>
+              <li style="display:flex;gap:14px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;"><span style="width:22px;height:22px;border-radius:50%;background:#dded2e;color:#1a1d00;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">2</span>Tell you exactly what is set up incorrectly — and why it matters.</li>
+              <li style="display:flex;gap:14px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;"><span style="width:22px;height:22px;border-radius:50%;background:#dded2e;color:#1a1d00;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">3</span>Show you what the correct configuration looks like.</li>
+              <li style="display:flex;gap:14px;align-items:flex-start;font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;"><span style="width:22px;height:22px;border-radius:50%;background:#dded2e;color:#1a1d00;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">4</span>Walk you through the changes, live on the call, if you want.</li>
+            </ul>
+            <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.18);font-family:'Lexend',sans-serif;font-size:14px;line-height:1.55;color:rgba(255,255,255,0.85);">At the end, you'll know exactly where your setup stands. <span style="color:#fff;font-weight:500;">Act on it yourself, or ask us to take it from there. Either is fine.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sa-sec" style="background:#f6eefb;">
+  <div class="sa-wrap">
+    <div class="sa-r" style="text-align:center;margin-bottom:48px;">
+      <span class="sa-ol">How it works</span>
+      <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(2rem,3vw,2.75rem);line-height:1.1;letter-spacing:-0.02em;margin:12px auto 0;max-width:640px;color:#1c0956;">Four steps. That's all.</h2>
+    </div>
+    <div class="sa-g4">
+      <div class="sa-r d1" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
+            <div style="position:absolute;inset:0;border-radius:12px;background:#7d33c3;opacity:0.12;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+          </div>
+          <span style="margin-left:auto;font-family:'Questrial',sans-serif;font-size:24px;color:#5a4a7a;opacity:0.35;letter-spacing:-0.02em;">01</span>
+        </div>
+        <h4 style="font-family:'Questrial',sans-serif;font-size:20px;letter-spacing:-0.01em;margin:0 0 6px;color:#1c0956;">Pick a slot</h4>
+        <p style="font-family:'Lexend',sans-serif;font-size:14px;line-height:1.55;color:#5a4a7a;margin:0;">Grab a 45-minute window on the calendar below.</p>
+      </div>
+      <div class="sa-r d2" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
+            <div style="position:absolute;inset:0;border-radius:12px;background:#7d33c3;opacity:0.12;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5"/></svg>
+            </div>
+          </div>
+          <span style="margin-left:auto;font-family:'Questrial',sans-serif;font-size:24px;color:#5a4a7a;opacity:0.35;letter-spacing:-0.02em;">02</span>
+        </div>
+        <h4 style="font-family:'Questrial',sans-serif;font-size:20px;letter-spacing:-0.01em;margin:0 0 6px;color:#1c0956;">Share your login</h4>
+        <p style="font-family:'Lexend',sans-serif;font-size:14px;line-height:1.55;color:#5a4a7a;margin:0;">Xero, QuickBooks, or Sage. That's the only thing to prepare.</p>
+      </div>
+      <div class="sa-r d3" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
+            <div style="position:absolute;inset:0;border-radius:12px;background:#7d33c3;opacity:0.12;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
+          </div>
+          <span style="margin-left:auto;font-family:'Questrial',sans-serif;font-size:24px;color:#5a4a7a;opacity:0.35;letter-spacing:-0.02em;">03</span>
+        </div>
+        <h4 style="font-family:'Questrial',sans-serif;font-size:20px;letter-spacing:-0.01em;margin:0 0 6px;color:#1c0956;">We meet</h4>
+        <p style="font-family:'Lexend',sans-serif;font-size:14px;line-height:1.55;color:#5a4a7a;margin:0;">Review your setup. No fluff. No pitch.</p>
+      </div>
+      <div class="sa-r d4" style="background:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-lift);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="position:relative;width:44px;height:44px;flex-shrink:0;">
+            <div style="position:absolute;inset:0;border-radius:12px;background:#7d33c3;opacity:0.12;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>
+            </div>
+          </div>
+          <span style="margin-left:auto;font-family:'Questrial',sans-serif;font-size:24px;color:#5a4a7a;opacity:0.35;letter-spacing:-0.02em;">04</span>
+        </div>
+        <h4 style="font-family:'Questrial',sans-serif;font-size:20px;letter-spacing:-0.01em;margin:0 0 6px;color:#1c0956;">You leave with clarity</h4>
+        <p style="font-family:'Lexend',sans-serif;font-size:14px;line-height:1.55;color:#5a4a7a;margin:0;">Clear picture of where things stand — and what to do next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section class="sa-sec" style="background:#fdf8ff;">
+  <div style="max-width:820px;margin:0 auto;">
+    <div class="sa-r" style="text-align:center;margin-bottom:44px;">
+      <span class="sa-ol">Three things you're probably thinking</span>
+      <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(2rem,3vw,2.75rem);line-height:1.1;letter-spacing:-0.02em;margin:12px auto 0;color:#1c0956;">The honest answers, up front.</h2>
+    </div>
+    <div class="sa-r d1">
+      <details>
+        <summary>Is this a sales call?
+          <span class="sa-plus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="sa-minus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <p class="sa-abody">No. It's a working session, not a pitch. We look at your actual setup, tell you what's wrong, and show you what right looks like. If at the end you want us to manage your accounting going forward, we'll tell you how that works. If you just want the session and nothing else, that's completely fine.</p>
+      </details>
+    </div>
+    <div class="sa-r d2">
+      <details>
+        <summary>I already have an accountant.
+          <span class="sa-plus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="sa-minus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <p class="sa-abody">Then let us make sure your setup is right before they inherit it. Most accountants find configuration problems at year-end. We'll tell you now, for nothing, so it doesn't become a problem later.</p>
+      </details>
+    </div>
+    <div class="sa-r d3">
+      <details>
+        <summary>My books are a mess — is it too late?
+          <span class="sa-plus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="sa-minus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <p class="sa-abody">That's exactly the situation this session is designed for. We've reviewed setups in every state imaginable. We'll tell you honestly what it would take to sort it out and what your options are. No judgement.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<section class="sa-sec" style="background:#f6eefb;">
+  <div class="sa-wrap">
+    <div class="sa-g2" style="grid-template-columns:1fr 1.1fr;">
+      <div class="sa-r">
+        <div class="sa-portraits" style="display:flex;gap:18px;">
+          <div style="flex:1;">
+            <div class="sa-portrait" style="aspect-ratio:3/4;border-radius:20px;background:linear-gradient(140deg,#3a1785 0%,#7d33c3 100%);box-shadow:var(--shadow-float);position:relative;overflow:hidden;transform:translateY(-12px);">
+              <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:28px 28px;"></div>
+              <div style="position:absolute;bottom:20px;left:22px;right:22px;color:#fff;">
+                <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;">Co-founder</div>
+                <div style="font-family:'Questrial',sans-serif;font-size:26px;letter-spacing:-0.01em;margin-top:2px;">Marc</div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <div class="sa-portrait" style="aspect-ratio:3/4;border-radius:20px;background:linear-gradient(140deg,#7d33c3 0%,#c48ef0 100%);box-shadow:var(--shadow-float);position:relative;overflow:hidden;transform:translateY(12px);">
+              <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:28px 28px;"></div>
+              <div style="position:absolute;bottom:20px;left:22px;right:22px;color:#fff;">
+                <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;">Co-founder</div>
+                <div style="font-family:'Questrial',sans-serif;font-size:26px;letter-spacing:-0.01em;margin-top:2px;">James</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sa-r d1">
+        <span class="sa-ol">Marc &amp; James · founders</span>
+        <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(2rem,3vw,2.75rem);line-height:1.1;letter-spacing:-0.02em;margin:12px 0 20px;color:#1c0956;">We're not career accountants who advise founders. <span style="background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">We're founders who do accounting.</span></h2>
+        <p style="font-family:'Lexend',sans-serif;font-size:17px;line-height:1.65;color:#5a4a7a;margin:0 0 16px;">Marc and James have raised money, hired teams, missed burn targets, and sat in boardrooms the night before investor meetings. They've been on your side of the table.</p>
+        <p style="font-family:'Lexend',sans-serif;font-size:17px;line-height:1.65;color:#5a4a7a;margin:0;">They built Startup Accountancy because they know what founders actually need from an accountant — and how far most traditional firms fall short.</p>
+        <div class="sa-fstats" style="margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-top:24px;border-top:1px solid rgba(201,188,218,0.4);">
+          <div><div style="font-family:'Questrial',sans-serif;font-size:30px;color:#1c0956;letter-spacing:-0.02em;line-height:1;">£12M+</div><div style="font-family:'Lexend',sans-serif;font-size:12px;line-height:1.4;color:#5a4a7a;margin-top:6px;">raised by founders we've worked with</div></div>
+          <div><div style="font-family:'Questrial',sans-serif;font-size:30px;color:#1c0956;letter-spacing:-0.02em;line-height:1;">1,200+</div><div style="font-family:'Lexend',sans-serif;font-size:12px;line-height:1.4;color:#5a4a7a;margin-top:6px;">founders served across the UK</div></div>
+          <div><div style="font-family:'Questrial',sans-serif;font-size:30px;color:#1c0956;letter-spacing:-0.02em;line-height:1;">24h</div><div style="font-family:'Lexend',sans-serif;font-size:12px;line-height:1.4;color:#5a4a7a;margin-top:6px;">typical turnaround on setup</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="sa-book" class="sa-cta-outer" style="padding:96px 48px;background:#fdf8ff;">
+  <div style="max-width:1200px;margin:0 auto;background:linear-gradient(135deg,#1c0956 0%,#3a1785 55%,#7d33c3 100%);border-radius:32px;position:relative;overflow:hidden;box-shadow:0 24px 64px -16px rgba(28,9,86,0.35);">
+    <div aria-hidden="true" style="position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(221,237,46,0.22),transparent 60%);filter:blur(40px);"></div>
+    <div aria-hidden="true" style="position:absolute;bottom:-180px;left:-100px;width:420px;height:420px;background:radial-gradient(circle,rgba(152,80,222,0.35),transparent 60%);filter:blur(40px);"></div>
+    <div class="sa-r sa-cta-box sa-g2" style="position:relative;padding:72px 64px;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center;">
+      <div>
+        <span style="font-family:'Lexend',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;">Free software setup call</span>
+        <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(2.25rem,3.6vw,3.25rem);line-height:1.05;letter-spacing:-0.02em;color:#fff;margin:14px 0 18px;">Get your books set up<br><span style="color:#dded2e;">right</span> — in one session.</h2>
+        <p style="font-family:'Lexend',sans-serif;font-size:17px;line-height:1.6;color:rgba(255,255,255,0.82);margin:0 0 28px;max-width:480px;">We review your setup. We tell you what needs fixing. We show you how. No charge. No obligation.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dded2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span style="font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;color:rgba(255,255,255,0.88);">We review your accounting software together</span></div>
+          <div style="display:flex;align-items:flex-start;gap:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dded2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span style="font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;color:rgba(255,255,255,0.88);">Fix any issues in the session, live</span></div>
+          <div style="display:flex;align-items:flex-start;gap:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dded2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span style="font-family:'Lexend',sans-serif;font-size:15px;line-height:1.5;color:rgba(255,255,255,0.88);">Walk away with everything set up correctly</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 20px 60px -12px rgba(0,0,0,0.3);">
+        <span class="sa-ol" style="color:#7d33c3;">Book your session</span>
+        <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#1c0956;letter-spacing:-0.01em;margin-top:2px;margin-bottom:20px;">Claim your free call</div>
+        <form id="sa-form" novalidate>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div><label for="sa-fn" class="sa-lbl">First name</label><input id="sa-fn" name="firstName" type="text" required autocomplete="given-name" placeholder="Alex" class="sa-inp"></div>
+            <div><label for="sa-em" class="sa-lbl">Email</label><input id="sa-em" name="email" type="email" required autocomplete="email" placeholder="you@yourstartup.com" class="sa-inp"></div>
+            <div><label for="sa-ph" class="sa-lbl">Mobile number</label><input id="sa-ph" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="07700 900000" pattern="[0-9\s\+\-\(\)]{7,20}" class="sa-inp"></div>
+          </div>
+          <div style="margin-top:24px;">
+            <button id="sa-sub" type="submit" class="sa-btn" style="width:100%;justify-content:center;">Book my free setup call →</button>
+            <div style="margin-top:10px;text-align:center;font-family:'Lexend',sans-serif;font-size:12px;color:#5a4a7a;">No obligation · We'll confirm a time that works for you</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#1c0956;color:rgba(255,255,255,0.85);padding:72px 48px 36px;">
+  <div class="sa-gfoot" style="max-width:1200px;margin:0 auto;">
+    <div>
+      <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#fff;letter-spacing:-0.01em;margin-bottom:14px;">Startup Accountancy</div>
+      <p style="font-family:'Lexend',sans-serif;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.6);margin:0;max-width:280px;">Accounting for UK founders — built by founders who've been where you are.</p>
+    </div>
+    <div>
+      <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;margin-bottom:14px;">Services</div>
+      <ul><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Setup review</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Bookkeeping</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">VAT &amp; Corp Tax</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Fractional CFO</a></li></ul>
+    </div>
+    <div>
+      <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;margin-bottom:14px;">Company</div>
+      <ul><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">About</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Clients</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Careers</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Press</a></li></ul>
+    </div>
+    <div>
+      <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;margin-bottom:14px;">Resources</div>
+      <ul><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Pricing</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Blog</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Guides</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Help</a></li></ul>
+    </div>
+    <div>
+      <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#dded2e;margin-bottom:14px;">Legal</div>
+      <ul><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Terms</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Privacy</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">Security</a></li><li style="padding:5px 0;"><a href="#" style="font-family:'Lexend',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);">ICO reg.</a></li></ul>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:48px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;font-family:'Lexend',sans-serif;font-size:12px;color:rgba(255,255,255,0.45);flex-wrap:wrap;gap:12px;">
+    <span>© 2026 Startup Accountancy Ltd · Registered in England &amp; Wales</span>
+    <span>Built by founders, not career accountants.</span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  // Reveal
+  var els = document.querySelectorAll('#sa-embed .sa-r');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+    },{threshold:0.12});
+    els.forEach(function(el){ obs.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+  // Hero CTA scroll
+  var cta = document.getElementById('sa-cta');
+  if(cta) cta.addEventListener('click', function(){
+    var t = document.getElementById('sa-book');
+    if(t) t.scrollIntoView({behavior:'smooth'});
+  });
+  // Form
+  var form = document.getElementById('sa-form');
+  if(form) form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var btn = document.getElementById('sa-sub');
+    btn.disabled = true; btn.textContent = 'Sending\u2026';
+    var d = {
+      firstName: form.querySelector('[name="firstName"]').value,
+      email: form.querySelector('[name="email"]').value,
+      phone: form.querySelector('[name="phone"]').value
+    };
+    var go = function(){ window.location.href='https://api.leadconnectorhq.com/widget/booking/5hjTB66wPSkoS6alfnlS'; };
+    fetch('https://services.leadconnectorhq.com/hooks/VRDTt7QEdUNr6vefOyUv/webhook-trigger/e84f8726-0fbd-4e8d-8505-7fe4d9eb0fdc',{
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(d)
+    }).catch(function(){}).finally(go);
+  });
+})();
+</script>
