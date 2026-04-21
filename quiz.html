@@ -15,7 +15,6 @@
     img { max-width: 100%; display: block; }
     ul { list-style: none; padding: 0; margin: 0; }
 
-    /* ── Tokens ── */
     :root {
       --primary: #7d33c3;
       --primary-grad: linear-gradient(135deg, #7d33c3 0%, #9850de 100%);
@@ -27,14 +26,6 @@
       --outline: rgba(201,188,218,0.4);
       --shadow-lift: 0 2px 12px -2px rgba(28,9,86,0.06);
       --shadow-float: 0 16px 48px -12px rgba(28,9,86,0.12);
-    }
-
-    /* ── Nav ── */
-    .qz-nav {
-      padding: 24px 0;
-      display: flex; align-items: center; justify-content: center;
-      background: #fdf8ff;
-      border-bottom: 1px solid rgba(201,188,218,0.2);
     }
 
     /* ── Overline ── */
@@ -55,19 +46,18 @@
     .qz-btn:hover { filter: brightness(1.07); }
     .qz-btn:active { transform: scale(0.98); }
     .qz-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-    .qz-btn-lg { font-size: 17px; padding: 19px 40px; }
 
     /* ── Screens ── */
     .qz-screen { display: none; }
     .qz-screen.active { display: block; }
 
-    /* ── Shared section wrapper ── */
-    .qz-sec { padding: 72px 48px; }
+    /* ── Layout ── */
+    .qz-sec { padding: 0 48px; }
     .qz-wrap { max-width: 780px; margin: 0 auto; }
     .qz-wrap-wide { max-width: 1100px; margin: 0 auto; }
 
     /* ── Reveal ── */
-    @keyframes qz-up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes qz-up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
     .qz-fade { animation: qz-up 0.5s cubic-bezier(0.2,0.8,0.2,1) both; }
     .qz-fade.d1 { animation-delay: 0.07s; }
     .qz-fade.d2 { animation-delay: 0.14s; }
@@ -76,7 +66,7 @@
     /* ── Progress bar ── */
     .qz-prog-wrap {
       background: var(--surface-low); border-radius: 9999px;
-      height: 5px; margin-bottom: 36px; overflow: hidden;
+      height: 5px; margin-bottom: 32px; overflow: hidden;
     }
     .qz-prog-bar {
       height: 100%; border-radius: 9999px;
@@ -91,20 +81,18 @@
     }
 
     /* ── Answer cards ── */
-    .qz-answers { display: grid; gap: 12px; margin-top: 28px; }
+    .qz-answers { display: grid; gap: 10px; margin-top: 24px; }
     .qz-card {
       background: var(--surface-low);
       border: 2px solid transparent; border-radius: 14px;
-      padding: 16px 20px; cursor: pointer;
+      padding: 15px 18px; cursor: pointer;
       display: flex; align-items: center; gap: 14px;
       font-size: 15px; color: var(--dark); line-height: 1.4;
       transition: border-color 150ms, background 150ms, box-shadow 150ms;
       text-align: left; width: 100%; font-family: inherit;
       -webkit-appearance: none; appearance: none;
     }
-    .qz-card:hover {
-      border-color: var(--primary); background: #fff;
-    }
+    .qz-card:hover { border-color: var(--primary); background: #fff; }
     .qz-card.selected {
       border-color: var(--primary); background: #fff;
       box-shadow: 0 0 0 3px rgba(125,51,195,0.12);
@@ -115,182 +103,245 @@
       flex-shrink: 0; transition: border-color 150ms, background 150ms;
       display: flex; align-items: center; justify-content: center;
     }
-    .qz-card.selected .qz-card-dot {
-      border-color: var(--primary); background: var(--primary);
-    }
+    .qz-card.selected .qz-card-dot { border-color: var(--primary); background: var(--primary); }
     .qz-card.selected .qz-card-dot::after {
       content: ''; display: block;
       width: 7px; height: 7px; border-radius: 50%; background: #fff;
     }
 
-    /* ── Consequence list (intro) ── */
-    .qz-cons {
-      background: #fff; border-radius: 18px; padding: 28px 32px;
-      box-shadow: var(--shadow-lift); margin: 32px 0;
+    /* ── Hero 2-col ── */
+    .qz-hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+      min-height: calc(100vh - 0px);
+      padding: 64px 0;
     }
+
+    /* ── Visual card ── */
+    .qz-visual {
+      position: relative; border-radius: 24px; overflow: hidden;
+      background: linear-gradient(135deg,#1c0956 0%,#3a1785 45%,#7d33c3 100%);
+      box-shadow: var(--shadow-float); padding: 32px;
+    }
+    .qz-visual-row {
+      background: rgba(255,255,255,0.07); border-radius: 10px;
+      padding: 11px 14px; margin-bottom: 9px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; color: rgba(255,255,255,0.9);
+    }
+    .qz-visual-row:last-child { margin-bottom: 0; }
+    .qz-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 9999px;
+    }
+    .qz-tag-ok { background: rgba(221,237,46,0.2); color: #dded2e; }
+    .qz-tag-warn { background: rgba(255,90,90,0.25); color: #ff8888; }
+    .qz-tag-unk { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+
+    /* ── Consequence list ── */
     .qz-cons li {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 15px; line-height: 1.55; color: var(--dark);
-      padding: 10px 0; border-bottom: 1px solid var(--outline);
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; line-height: 1.5; color: var(--dark);
+      padding: 9px 0; border-bottom: 1px solid var(--outline);
     }
     .qz-cons li:last-child { border-bottom: none; }
-    .qz-cons-icon {
-      width: 20px; height: 20px; border-radius: 50%;
-      background: rgba(125,51,195,0.1); flex-shrink: 0; margin-top: 1px;
-      display: flex; align-items: center; justify-content: center;
-    }
 
     /* ── Trust strip ── */
     .qz-trust {
-      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
-      margin-top: 18px;
+      display: flex; gap: 18px; flex-wrap: wrap;
+      margin-top: 16px;
     }
     .qz-trust-item {
-      display: flex; align-items: center; gap: 7px;
-      font-size: 13px; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--muted);
     }
 
-    /* ── Results screen ── */
+    /* ── Results ── */
     .qz-tier-badge {
       display: inline-block; padding: 5px 14px; border-radius: 9999px;
       font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; margin-bottom: 16px;
+      text-transform: uppercase; margin-bottom: 14px;
     }
-    .tier-green  { background: #e8f5e9; color: #2e7d32; }
-    .tier-amber  { background: #fff8e1; color: #e65100; }
-    .tier-red    { background: #fce4ec; color: #b71c1c; }
-    .tier-critical { background: #880e4f; color: #fff; }
+    .tier-green   { background: #e8f5e9; color: #2e7d32; }
+    .tier-amber   { background: #fff8e1; color: #e65100; }
+    .tier-red     { background: #fce4ec; color: #b71c1c; }
+    .tier-critical{ background: #880e4f; color: #fff; }
 
-    .qz-flags { display: grid; gap: 12px; margin: 24px 0; }
+    .qz-flags { display: grid; gap: 10px; margin: 20px 0; }
     .qz-flag {
-      display: flex; gap: 12px; align-items: flex-start;
+      display: flex; gap: 10px; align-items: flex-start;
       background: #fff3f3; border-left: 3px solid #e53935;
-      border-radius: 0 10px 10px 0; padding: 12px 16px;
-      font-size: 14px; line-height: 1.5; color: var(--dark);
+      border-radius: 0 10px 10px 0; padding: 11px 14px;
+      font-size: 13.5px; line-height: 1.5; color: var(--dark);
     }
-    .qz-flag-icon { flex-shrink: 0; margin-top: 1px; }
 
     /* ── Form ── */
     .qz-form-box {
       background: var(--surface-low); border-radius: 20px;
-      padding: 32px; margin-top: 32px;
-      box-shadow: var(--shadow-float);
+      padding: 28px; margin-top: 28px; box-shadow: var(--shadow-float);
     }
     .qz-lbl {
       display: block; font-size: 11px; font-weight: 600;
       letter-spacing: 0.07em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 6px;
+      color: var(--muted); margin-bottom: 5px;
     }
     .qz-inp {
-      width: 100%; padding: 13px 16px;
+      width: 100%; padding: 12px 15px;
       font-size: 15px; color: var(--dark);
       background: #fff; border: 1.5px solid var(--outline);
-      border-radius: 12px; outline: none; transition: border-color 150ms;
+      border-radius: 11px; outline: none; transition: border-color 150ms;
     }
     .qz-inp:focus { border-color: var(--primary); }
-    .qz-fields { display: grid; gap: 14px; }
 
-    /* ── Results layout ── */
     .qz-results-grid {
-      display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start;
+      display: grid; grid-template-columns: 1fr 360px; gap: 44px; align-items: start;
     }
 
     /* ── Responsive ── */
     @media (max-width: 960px) {
-      .qz-sec { padding: 56px 32px; }
-      .qz-results-grid { grid-template-columns: 1fr; gap: 32px; }
+      .qz-sec { padding: 0 32px; }
+      .qz-hero-grid { grid-template-columns: 1fr; gap: 36px; min-height: 0; padding: 56px 0; }
+      .qz-results-grid { grid-template-columns: 1fr; gap: 28px; }
     }
     @media (max-width: 640px) {
-      .qz-sec { padding: 48px 20px; }
-      .qz-btn-lg { font-size: 15px; padding: 16px 28px; }
-      .qz-cons { padding: 20px 20px; }
-      .qz-form-box { padding: 24px 20px; }
+      .qz-sec { padding: 0 20px; }
+      .qz-hero-grid { padding: 44px 0; }
+      .qz-form-box { padding: 20px; }
+      .qz-btn { font-size: 15px; padding: 15px 26px; }
     }
     @media (max-width: 480px) {
-      .qz-sec { padding: 40px 16px; }
-      .qz-card { font-size: 14px; }
+      .qz-sec { padding: 0 14px; }
+      .qz-card { font-size: 14px; padding: 13px 14px; }
+      .qz-hero-grid { padding: 36px 0; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="qz-nav">
-    <a href="/" aria-label="Startup Accountancy">
-      <img src="assets/logo.png" alt="Startup Accountancy" style="height:48px;width:auto;">
-    </a>
-  </nav>
-
   <!-- ══════════════════════════════════════ -->
-  <!-- SCREEN 0: INTRO                        -->
+  <!-- SCREEN 0: INTRO (above fold)           -->
   <!-- ══════════════════════════════════════ -->
   <div id="qz-s0" class="qz-screen active">
-    <section class="qz-sec" style="position:relative;overflow:hidden;background:#fdf8ff;">
+    <section style="position:relative;overflow:hidden;background:#fdf8ff;">
       <div aria-hidden="true" style="position:absolute;top:-200px;right:-180px;width:700px;height:700px;background:radial-gradient(circle,rgba(152,80,222,0.14),transparent 60%);filter:blur(60px);pointer-events:none;"></div>
-      <div class="qz-wrap" style="text-align:center;position:relative;">
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:18px;">Free 3-minute audit</span>
-          <h1 style="font-family:'Questrial',sans-serif;font-size:clamp(2.2rem,4.5vw,3.6rem);line-height:1.05;letter-spacing:-0.02em;margin:0 0 20px;color:#1c0956;">
-            Is Your Accounting Software<br>
-            <span style="background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Set Up Correctly?</span>
-          </h1>
-          <p style="font-size:18px;line-height:1.65;color:#5a4a7a;max-width:580px;margin:0 auto 8px;">
-            Most founders set up Xero, QuickBooks, or Sage themselves. Most get it wrong.
-            Seven questions will tell you exactly where you stand.
-          </p>
-          <p style="font-size:15px;color:#5a4a7a;max-width:540px;margin:0 auto 28px;opacity:0.85;">
-            You are not careless. You were just never shown how to do this correctly.
-          </p>
-        </div>
+      <div aria-hidden="true" style="position:absolute;bottom:-200px;left:-160px;width:540px;height:540px;background:radial-gradient(circle,rgba(221,237,46,0.09),transparent 60%);filter:blur(60px);pointer-events:none;"></div>
 
-        <div class="qz-fade d1 qz-cons">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5a4a7a;margin-bottom:6px;">Here is what happens when the setup is wrong</div>
-          <ul>
-            <li>
-              <span class="qz-cons-icon">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </span>
-              <span>Your VAT returns come out incorrectly — and HMRC does not care that you did not know.</span>
-            </li>
-            <li>
-              <span class="qz-cons-icon">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </span>
-              <span>Your Corporation Tax is calculated on bad data, and your accountant charges extra to go back and fix it.</span>
-            </li>
-            <li>
-              <span class="qz-cons-icon">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </span>
-              <span>An investor asks for management accounts and you cannot send them because they do not reflect reality.</span>
-            </li>
-            <li>
-              <span class="qz-cons-icon">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </span>
-              <span>You reach your first year-end and your accountant tells you the records need rebuilding from scratch.</span>
-            </li>
-          </ul>
-        </div>
+      <div class="qz-sec">
+        <div class="qz-hero-grid" style="max-width:1200px;margin:0 auto;position:relative;">
 
-        <div class="qz-fade d2">
-          <button class="qz-btn qz-btn-lg" onclick="startQuiz()">Start the free audit →</button>
-          <div class="qz-trust">
-            <span class="qz-trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              7 questions · under 3 minutes
-            </span>
-            <span class="qz-trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              No charge · no obligation
-            </span>
-            <span class="qz-trust-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              1,200+ founders have done this
-            </span>
+          <!-- Left: copy + CTA -->
+          <div>
+            <div class="qz-fade">
+              <span class="qz-ol" style="margin-bottom:16px;">Free 3-minute audit</span>
+              <h1 style="font-family:'Questrial',sans-serif;font-size:clamp(2rem,4.2vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin:0 0 18px;color:#1c0956;">
+                Is your accounting<br>software set up
+                <span style="background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"> correctly?</span>
+              </h1>
+              <p style="font-size:17px;line-height:1.65;color:#5a4a7a;max-width:460px;margin:0 0 10px;">
+                Most founders set up Xero, QuickBooks, or Sage themselves.
+                Most get it wrong. Seven questions will tell you exactly where you stand.
+              </p>
+              <p style="font-size:14px;color:#5a4a7a;margin:0 0 28px;opacity:0.85;">
+                You are not careless. You were just never shown how to do this correctly.
+              </p>
+            </div>
+            <div class="qz-fade d1">
+              <button class="qz-btn" style="font-size:17px;padding:18px 36px;" onclick="startQuiz()">Start the free audit →</button>
+              <div class="qz-trust">
+                <span class="qz-trust-item">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  7 questions · under 3 minutes
+                </span>
+                <span class="qz-trust-item">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  No charge · no obligation
+                </span>
+                <span class="qz-trust-item">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  1,200+ founders have done this
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: visual / image -->
+          <div class="qz-fade d2">
+            <!-- Replace src with your own image URL if available. The styled fallback below shows automatically if no image is provided. -->
+            <div class="qz-visual">
+              <div aria-hidden="true" style="position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(221,237,46,0.22),transparent 60%);filter:blur(40px);"></div>
+              <div style="position:relative;">
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#dded2e;margin-bottom:16px;">What we typically find</div>
+                <div class="qz-visual-row">
+                  <span>Chart of accounts</span>
+                  <span class="qz-tag qz-tag-warn">Misconfigured</span>
+                </div>
+                <div class="qz-visual-row">
+                  <span>VAT scheme</span>
+                  <span class="qz-tag qz-tag-warn">Wrong scheme</span>
+                </div>
+                <div class="qz-visual-row">
+                  <span>Bank reconciliation</span>
+                  <span class="qz-tag qz-tag-warn">3 months behind</span>
+                </div>
+                <div class="qz-visual-row">
+                  <span>Director loan account</span>
+                  <span class="qz-tag qz-tag-unk">Untracked</span>
+                </div>
+                <div class="qz-visual-row">
+                  <span>Management accounts</span>
+                  <span class="qz-tag qz-tag-ok">Looks good</span>
+                </div>
+                <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:space-between;">
+                  <div>
+                    <div style="font-family:'Questrial',sans-serif;font-size:28px;color:#fff;line-height:1;letter-spacing:-0.02em;">73%</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:3px;">of new setups have at<br>least one critical error</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-family:'Questrial',sans-serif;font-size:28px;color:#dded2e;line-height:1;letter-spacing:-0.02em;">Free</div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:3px;">to find out where<br>you stand</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- What goes wrong — below fold -->
+      <div style="background:#f6eefb;padding:56px 48px;">
+        <div style="max-width:1200px;margin:0 auto;">
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5a4a7a;margin-bottom:6px;">Here is what happens when the setup is wrong</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:860px;margin:0 auto;" class="qz-cons-grid">
+            <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-lift);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="font-size:14px;line-height:1.5;color:#1c0956;">Your VAT returns come out incorrectly — and HMRC does not care that you did not know.</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-lift);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="font-size:14px;line-height:1.5;color:#1c0956;">Your Corporation Tax is based on bad data and your accountant charges extra to fix it.</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-lift);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="font-size:14px;line-height:1.5;color:#1c0956;">An investor asks for management accounts you cannot send because they do not reflect reality.</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-lift);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="font-size:14px;line-height:1.5;color:#1c0956;">You reach year-end and your accountant says the records need rebuilding from scratch.</span>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:32px;">
+            <button class="qz-btn" onclick="startQuiz()" style="font-size:16px;">Start the free audit →</button>
           </div>
         </div>
       </div>
+
+      <style>
+        @media (max-width:640px) {
+          .qz-cons-grid { grid-template-columns: 1fr !important; }
+        }
+      </style>
     </section>
   </div>
 
@@ -300,34 +351,21 @@
 
   <!-- Q1 -->
   <div id="qz-s1" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 1 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">14%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:14%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">Your setup</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">How was your accounting software configured when you first started using it?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Choose the answer that best describes what actually happened.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,2)">
-              <span class="qz-card-dot"></span>
-              A specialist accountant configured it for us from the start
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Your software was set up using a default template — these miss UK-specific requirements like correct VAT codes and chart of accounts structure.',2)">
-              <span class="qz-card-dot"></span>
-              I followed the setup wizard myself and used the default template
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Your software was configured by someone without specialist accounting knowledge — the default setup is rarely correct for a UK startup.',2)">
-              <span class="qz-card-dot"></span>
-              Someone in my team set it up — not a qualified accountant
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Connecting your bank and assuming the software is ready is one of the most common setup mistakes we see — critical settings are left at default.',2)">
-              <span class="qz-card-dot"></span>
-              I connected the bank feed and assumed it was ready to use
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 1 of 7</span><span style="color:var(--primary);font-weight:700;">14%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:14%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">Your setup</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">How was your accounting software configured when you first started using it?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Choose the answer that best describes what actually happened.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,2)"><span class="qz-card-dot"></span>A specialist accountant configured it for us from the start</button>
+              <button class="qz-card" onclick="pick(this,2,'Your software was set up using a default template — these miss UK-specific requirements like correct VAT codes and chart of accounts structure.',2)"><span class="qz-card-dot"></span>I followed the setup wizard myself and used the default template</button>
+              <button class="qz-card" onclick="pick(this,2,'Your software was configured by someone without specialist accounting knowledge — the default setup is rarely correct for a UK startup.',2)"><span class="qz-card-dot"></span>Someone in my team set it up — not a qualified accountant</button>
+              <button class="qz-card" onclick="pick(this,3,'Connecting your bank and assuming the software is ready is one of the most common setup mistakes we see — critical settings are left at default.',2)"><span class="qz-card-dot"></span>I connected the bank feed and assumed it was ready to use</button>
+            </div>
           </div>
         </div>
       </div>
@@ -336,34 +374,21 @@
 
   <!-- Q2 -->
   <div id="qz-s2" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 2 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">28%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:28%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">VAT</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">Do you know which VAT scheme you're registered under — and whether it's the right one for your business?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">The VAT scheme affects every return you file. Most founders never check.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,3)">
-              <span class="qz-card-dot"></span>
-              Yes — it's been specifically reviewed against our revenue model
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'You know your VAT scheme name but have not confirmed it is optimal — this is worth reviewing, as the wrong scheme can overpay or underpay HMRC.',3)">
-              <span class="qz-card-dot"></span>
-              I know the scheme name, but I haven't confirmed it's the most efficient option
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Not being registered yet does not mean you are safe — many founders miss the registration threshold and face penalties and back-dated VAT.',3)">
-              <span class="qz-card-dot"></span>
-              I'm not VAT registered yet — I haven't looked into when I need to be
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Not knowing which VAT scheme you are on means your VAT returns may have been filed incorrectly — this carries financial and legal risk.',3)">
-              <span class="qz-card-dot"></span>
-              I'm honestly not sure which VAT scheme we're on
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 2 of 7</span><span style="color:var(--primary);font-weight:700;">28%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:28%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">VAT</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">Do you know which VAT scheme you're registered under — and whether it's the right one for your business?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">The VAT scheme affects every return you file. Most founders never check.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,3)"><span class="qz-card-dot"></span>Yes — it's been specifically reviewed against our revenue model</button>
+              <button class="qz-card" onclick="pick(this,2,'You know your VAT scheme name but have not confirmed it is optimal — this is worth reviewing, as the wrong scheme can overpay or underpay HMRC.',3)"><span class="qz-card-dot"></span>I know the scheme name, but I haven't confirmed it's the most efficient option</button>
+              <button class="qz-card" onclick="pick(this,2,'Not being registered yet does not mean you are safe — many founders miss the registration threshold and face penalties and back-dated VAT.',3)"><span class="qz-card-dot"></span>I'm not VAT registered yet — I haven't looked into when I need to be</button>
+              <button class="qz-card" onclick="pick(this,3,'Not knowing which VAT scheme you are on means your VAT returns may have been filed incorrectly — this carries financial and legal risk.',3)"><span class="qz-card-dot"></span>I'm honestly not sure which VAT scheme we're on</button>
+            </div>
           </div>
         </div>
       </div>
@@ -372,34 +397,21 @@
 
   <!-- Q3 -->
   <div id="qz-s3" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 3 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">43%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:43%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">Bank reconciliation</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">When did your books last fully reconcile — every transaction matched to your bank statement?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Reconciliation is the only way to confirm your figures reflect reality.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,4)">
-              <span class="qz-card-dot"></span>
-              Within the last month — we reconcile regularly
-            </button>
-            <button class="qz-card" onclick="pick(this,1,'Your reconciliation is slightly behind — this creates blind spots in your financial position and makes reports unreliable.',4)">
-              <span class="qz-card-dot"></span>
-              Within the last 3 months — a bit behind but not critical
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Books that haven't been reconciled in over 3 months are likely unreliable — your reported figures may not reflect your true position.',4)">
-              <span class="qz-card-dot"></span>
-              It's been longer than 3 months — or it's never been fully done
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Not knowing what reconciliation means suggests your books have never been properly verified — your accounting figures cannot be trusted without it.',4)">
-              <span class="qz-card-dot"></span>
-              I'm not sure what bank reconciliation means or how to check
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 3 of 7</span><span style="color:var(--primary);font-weight:700;">43%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:43%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">Bank reconciliation</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">When did your books last fully reconcile — every transaction matched to your bank statement?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Reconciliation is the only way to confirm your figures reflect reality.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,4)"><span class="qz-card-dot"></span>Within the last month — we reconcile regularly</button>
+              <button class="qz-card" onclick="pick(this,1,'Your reconciliation is slightly behind — this creates blind spots in your financial position and makes reports unreliable.',4)"><span class="qz-card-dot"></span>Within the last 3 months — a bit behind but not critical</button>
+              <button class="qz-card" onclick="pick(this,2,'Books that haven\'t been reconciled in over 3 months are likely unreliable — your reported figures may not reflect your true position.',4)"><span class="qz-card-dot"></span>It's been longer than 3 months — or it's never been fully done</button>
+              <button class="qz-card" onclick="pick(this,3,'Not knowing what reconciliation means suggests your books have never been properly verified — your accounting figures cannot be trusted without it.',4)"><span class="qz-card-dot"></span>I'm not sure what bank reconciliation means or how to check</button>
+            </div>
           </div>
         </div>
       </div>
@@ -408,34 +420,21 @@
 
   <!-- Q4 -->
   <div id="qz-s4" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 4 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">57%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:57%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">Chart of accounts</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">Has your chart of accounts ever been reviewed against UK GAAP standards?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">The chart of accounts is the foundation of your entire accounting structure. A wrong one compounds every other error.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,5)">
-              <span class="qz-card-dot"></span>
-              Yes — a qualified accountant confirmed it's set up correctly for our business
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'The default chart of accounts templates are not configured for UK startup accounting — they miss required categories and create year-end problems.',5)">
-              <span class="qz-card-dot"></span>
-              I used the default template and have never changed or reviewed it
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Self-customised charts of accounts frequently create misclassifications that only surface at year-end — when they're expensive to fix.',5)">
-              <span class="qz-card-dot"></span>
-              I've customised it myself but it's never been independently reviewed
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Not knowing what a chart of accounts is suggests your accounting software has never been properly configured — this is the most common cause of year-end rebuild costs.',5)">
-              <span class="qz-card-dot"></span>
-              I'm not sure what a chart of accounts is
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 4 of 7</span><span style="color:var(--primary);font-weight:700;">57%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:57%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">Chart of accounts</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">Has your chart of accounts ever been reviewed against UK GAAP standards?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">The chart of accounts is the foundation of your entire accounting structure. A wrong one compounds every other error.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,5)"><span class="qz-card-dot"></span>Yes — a qualified accountant confirmed it's set up correctly for our business</button>
+              <button class="qz-card" onclick="pick(this,2,'The default chart of accounts templates are not configured for UK startup accounting — they miss required categories and create year-end problems.',5)"><span class="qz-card-dot"></span>I used the default template and have never changed or reviewed it</button>
+              <button class="qz-card" onclick="pick(this,2,'Self-customised charts of accounts frequently create misclassifications that only surface at year-end — when they\'re expensive to fix.',5)"><span class="qz-card-dot"></span>I've customised it myself but it's never been independently reviewed</button>
+              <button class="qz-card" onclick="pick(this,3,'Not knowing what a chart of accounts is suggests your accounting software has never been properly configured — this is the most common cause of year-end rebuild costs.',5)"><span class="qz-card-dot"></span>I'm not sure what a chart of accounts is</button>
+            </div>
           </div>
         </div>
       </div>
@@ -444,34 +443,21 @@
 
   <!-- Q5 -->
   <div id="qz-s5" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 5 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">71%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:71%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">HMRC exposure</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">If HMRC opened an enquiry into your VAT returns today, how would you feel?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Be honest. This question matters more than any other.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,6)">
-              <span class="qz-card-dot"></span>
-              Confident — our returns have been reviewed by a professional
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Returns that have never been independently checked carry hidden risk — errors in VAT coding compound across every return filed.',6)">
-              <span class="qz-card-dot"></span>
-              Fairly confident — but they've never been independently checked
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Suspected VAT errors that have gone uncorrected become more expensive the longer they remain unfixed — HMRC can go back up to 4 years.',6)">
-              <span class="qz-card-dot"></span>
-              Anxious — I suspect there could be errors I haven't caught
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Not knowing whether your VAT returns are correct is a significant risk — incorrect returns carry penalties, interest, and potential investigation.',6)">
-              <span class="qz-card-dot"></span>
-              I have no idea whether my VAT returns are correct
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 5 of 7</span><span style="color:var(--primary);font-weight:700;">71%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:71%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">HMRC exposure</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">If HMRC opened an enquiry into your VAT returns today, how would you feel?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Be honest. This question matters more than any other.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,6)"><span class="qz-card-dot"></span>Confident — our returns have been reviewed by a professional</button>
+              <button class="qz-card" onclick="pick(this,2,'Returns that have never been independently checked carry hidden risk — errors in VAT coding compound across every return filed.',6)"><span class="qz-card-dot"></span>Fairly confident — but they've never been independently checked</button>
+              <button class="qz-card" onclick="pick(this,3,'Suspected VAT errors that have gone uncorrected become more expensive the longer they remain unfixed — HMRC can go back up to 4 years.',6)"><span class="qz-card-dot"></span>Anxious — I suspect there could be errors I haven't caught</button>
+              <button class="qz-card" onclick="pick(this,3,'Not knowing whether your VAT returns are correct is a significant risk — incorrect returns carry penalties, interest, and potential investigation.',6)"><span class="qz-card-dot"></span>I have no idea whether my VAT returns are correct</button>
+            </div>
           </div>
         </div>
       </div>
@@ -480,34 +466,21 @@
 
   <!-- Q6 -->
   <div id="qz-s6" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 6 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">85%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:85%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">Data integrity</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">Have you ever noticed a figure in your accounting software that didn't match reality — a balance, a total, or a report?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Even small unexplained differences signal deeper configuration problems.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,7)">
-              <span class="qz-card-dot"></span>
-              Never — every report and balance has always matched
-            </button>
-            <button class="qz-card" onclick="pick(this,2,'Occasional unexplained discrepancies are a warning sign — they indicate miscoded transactions or bank feed errors that accumulate over time.',7)">
-              <span class="qz-card-dot"></span>
-              Yes, occasionally — small differences I couldn't explain
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Regular discrepancies mean your accounting data cannot be relied upon — reports, tax calculations, and management accounts based on it will all be wrong.',7)">
-              <span class="qz-card-dot"></span>
-              Yes, regularly — it's an ongoing problem I haven't resolved
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Not checking your reports closely enough to notice discrepancies means errors could have been accumulating for months or years undetected.',7)">
-              <span class="qz-card-dot"></span>
-              I don't check reports closely enough to know
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 6 of 7</span><span style="color:var(--primary);font-weight:700;">85%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:85%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">Data integrity</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">Have you ever noticed a figure in your accounting software that didn't match reality — a balance, a total, or a report?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Even small unexplained differences signal deeper configuration problems.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,7)"><span class="qz-card-dot"></span>Never — every report and balance has always matched</button>
+              <button class="qz-card" onclick="pick(this,2,'Occasional unexplained discrepancies are a warning sign — they indicate miscoded transactions or bank feed errors that accumulate over time.',7)"><span class="qz-card-dot"></span>Yes, occasionally — small differences I couldn't explain</button>
+              <button class="qz-card" onclick="pick(this,3,'Regular discrepancies mean your accounting data cannot be relied upon — reports, tax calculations, and management accounts based on it will all be wrong.',7)"><span class="qz-card-dot"></span>Yes, regularly — it's an ongoing problem I haven't resolved</button>
+              <button class="qz-card" onclick="pick(this,3,'Not checking your reports closely enough to notice discrepancies means errors could have been accumulating for months or years undetected.',7)"><span class="qz-card-dot"></span>I don't check reports closely enough to know</button>
+            </div>
           </div>
         </div>
       </div>
@@ -516,34 +489,21 @@
 
   <!-- Q7 -->
   <div id="qz-s7" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
-      <div class="qz-wrap">
-        <div class="qz-prog-label">
-          <span>Question 7 of 7</span>
-          <span style="color:var(--primary);font-weight:700;">99%</span>
-        </div>
-        <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:99%;"></div></div>
-        <div class="qz-fade">
-          <span class="qz-ol" style="margin-bottom:14px;">Investor readiness</span>
-          <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 6px;color:#1c0956;">If an investor or bank asked for your management accounts right now, what would happen?</h2>
-          <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Management accounts are a direct reflection of the quality of your accounting setup.</p>
-          <div class="qz-answers">
-            <button class="qz-card" onclick="pick(this,0,null,'results')">
-              <span class="qz-card-dot"></span>
-              They're clean and accurate — I could send them within 24 hours
-            </button>
-            <button class="qz-card" onclick="pick(this,1,'Your management accounts exist but need preparation time — this suggests your books are not being maintained in a consistently reportable state.','results')">
-              <span class="qz-card-dot"></span>
-              They exist, but they'd need cleaning up before I could share them
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Management accounts that aren\'t in a shareable state indicate underlying setup or bookkeeping problems that are preventing you from reporting accurately.','results')">
-              <span class="qz-card-dot"></span>
-              They're not in a state I'd feel comfortable sharing
-            </button>
-            <button class="qz-card" onclick="pick(this,3,'Not having management accounts or not knowing what they are is a significant gap — they are expected by investors, lenders, and HMRC as a minimum standard.','results')">
-              <span class="qz-card-dot"></span>
-              I don't have management accounts — or I'm not sure what they are
-            </button>
+    <section style="background:#fdf8ff;min-height:100vh;display:flex;align-items:center;">
+      <div class="qz-sec" style="width:100%;padding-top:56px;padding-bottom:56px;">
+        <div class="qz-wrap">
+          <div class="qz-prog-label"><span>Question 7 of 7</span><span style="color:var(--primary);font-weight:700;">99%</span></div>
+          <div class="qz-prog-wrap"><div class="qz-prog-bar" style="width:99%;"></div></div>
+          <div class="qz-fade">
+            <span class="qz-ol" style="margin-bottom:12px;">Investor readiness</span>
+            <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;letter-spacing:-0.02em;margin:0 0 4px;color:#1c0956;">If an investor or bank asked for your management accounts right now, what would happen?</h2>
+            <p style="font-size:14px;color:#5a4a7a;margin:0 0 4px;">Management accounts are a direct reflection of the quality of your accounting setup.</p>
+            <div class="qz-answers">
+              <button class="qz-card" onclick="pick(this,0,null,'results')"><span class="qz-card-dot"></span>They're clean and accurate — I could send them within 24 hours</button>
+              <button class="qz-card" onclick="pick(this,1,'Your management accounts exist but need preparation time — this suggests your books are not being maintained in a consistently reportable state.','results')"><span class="qz-card-dot"></span>They exist, but they'd need cleaning up before I could share them</button>
+              <button class="qz-card" onclick="pick(this,3,'Management accounts that aren\'t in a shareable state indicate underlying setup or bookkeeping problems that are preventing you from reporting accurately.','results')"><span class="qz-card-dot"></span>They're not in a state I'd feel comfortable sharing</button>
+              <button class="qz-card" onclick="pick(this,3,'Not having management accounts or not knowing what they are is a significant gap — they are expected by investors, lenders, and HMRC as a minimum standard.','results')"><span class="qz-card-dot"></span>I don't have management accounts — or I'm not sure what they are</button>
+            </div>
           </div>
         </div>
       </div>
@@ -551,82 +511,55 @@
   </div>
 
   <!-- ══════════════════════════════════════ -->
-  <!-- SCREEN 8: RESULTS + FORM               -->
+  <!-- SCREEN: RESULTS + FORM                 -->
   <!-- ══════════════════════════════════════ -->
   <div id="qz-results" class="qz-screen">
-    <section class="qz-sec" style="background:#fdf8ff;">
+    <section style="background:#fdf8ff;padding:64px 48px;">
       <div class="qz-wrap-wide">
-
-        <!-- Calculating overlay shown briefly -->
-        <div id="qz-calc" style="text-align:center;padding:48px 0;">
+        <div id="qz-calc" style="text-align:center;padding:60px 0;">
           <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#1c0956;margin-bottom:8px;">Reviewing your answers…</div>
           <div style="font-size:14px;color:#5a4a7a;">This takes about two seconds.</div>
         </div>
-
-        <!-- Actual results (shown after delay) -->
         <div id="qz-result-body" style="display:none;">
           <div class="qz-results-grid">
-            <!-- Left: findings -->
             <div class="qz-fade">
               <div id="qz-tier-badge" class="qz-tier-badge"></div>
-              <h2 id="qz-result-headline" style="font-family:'Questrial',sans-serif;font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.1;letter-spacing:-0.02em;margin:0 0 14px;color:#1c0956;"></h2>
-              <p id="qz-result-sub" style="font-size:16px;line-height:1.65;color:#5a4a7a;margin:0 0 24px;"></p>
-
+              <h2 id="qz-result-headline" style="font-family:'Questrial',sans-serif;font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.1;letter-spacing:-0.02em;margin:0 0 12px;color:#1c0956;"></h2>
+              <p id="qz-result-sub" style="font-size:15px;line-height:1.65;color:#5a4a7a;margin:0 0 20px;"></p>
               <div id="qz-flags" class="qz-flags"></div>
-
-              <div id="qz-green-note" style="display:none;background:#f0f4ff;border-left:3px solid #7d33c3;border-radius:0 10px 10px 0;padding:14px 18px;font-size:14px;line-height:1.55;color:#1c0956;margin-top:8px;">
-                <strong>Worth noting:</strong> Even the cleanest setups contain at least one blind spot that founders miss. The most common ones are invisible until they surface at year-end — by which point they're expensive to fix. A free review takes 45 minutes and costs nothing.
+              <div id="qz-green-note" style="display:none;background:#f0f4ff;border-left:3px solid #7d33c3;border-radius:0 10px 10px 0;padding:13px 16px;font-size:14px;line-height:1.55;color:#1c0956;margin-top:4px;"><strong>Worth noting:</strong> Even the cleanest setups contain at least one blind spot. The most common ones are invisible until year-end — when they're expensive to fix. A free review takes 45 minutes and costs nothing.</div>
+              <div style="margin-top:24px;padding:18px 22px;background:#fff;border-radius:14px;box-shadow:var(--shadow-lift);display:flex;align-items:flex-start;gap:12px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <div style="font-size:14px;line-height:1.6;color:#5a4a7a;">In a free 45-minute review, Marc or James will go through your actual software with you — confirm what's wrong, and show you the correct configuration. No charge. No obligation. No pitch.</div>
               </div>
-
-              <div style="margin-top:28px;padding:20px 24px;background:#fff;border-radius:14px;box-shadow:var(--shadow-lift);display:flex;align-items:flex-start;gap:14px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <div style="font-size:14px;line-height:1.6;color:#5a4a7a;">
-                  In a free 45-minute setup review, Marc or James will go through your actual software with you, confirm exactly what's wrong, and show you what the correct configuration looks like. No charge. No obligation. No sales pitch at the end.
-                </div>
-              </div>
-
-              <!-- Social proof -->
-              <div style="margin-top:28px;display:flex;align-items:flex-start;gap:14px;padding:18px 22px;background:#fff;border-radius:14px;box-shadow:var(--shadow-lift);">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div style="margin-top:16px;display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:#fff;border-radius:14px;box-shadow:var(--shadow-lift);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <div>
-                  <p style="font-size:14px;line-height:1.55;color:#1c0956;font-style:italic;margin:0 0 6px;">"Found three VAT config errors in 20 minutes. Fixed them on the call. Worth every minute."</p>
+                  <p style="font-size:13.5px;line-height:1.55;color:#1c0956;font-style:italic;margin:0 0 5px;">"Found three VAT config errors in 20 minutes. Fixed them on the call. Worth every minute."</p>
                   <div style="font-size:12px;color:#5a4a7a;">— Priya N., SaaS founder · £1.8M raised</div>
                 </div>
               </div>
             </div>
-
-            <!-- Right: form -->
             <div class="qz-fade d1">
               <div class="qz-form-box">
-                <span class="qz-ol" style="color:#7d33c3;margin-bottom:6px;">Book your free review</span>
-                <div style="font-family:'Questrial',sans-serif;font-size:22px;color:#1c0956;letter-spacing:-0.01em;margin-bottom:6px;">Get your setup reviewed — free</div>
-                <p style="font-size:13px;color:#5a4a7a;margin:0 0 22px;line-height:1.5;">Enter your details and we'll arrange a time that works for you. 45 minutes. No charge.</p>
+                <span class="qz-ol" style="color:#7d33c3;margin-bottom:5px;">Book your free review</span>
+                <div style="font-family:'Questrial',sans-serif;font-size:21px;color:#1c0956;letter-spacing:-0.01em;margin-bottom:5px;">Get your setup reviewed — free</div>
+                <p style="font-size:13px;color:#5a4a7a;margin:0 0 18px;line-height:1.5;">Enter your details and we'll arrange a time that works. 45 minutes. No charge.</p>
                 <form id="qz-form" novalidate>
-                  <div class="qz-fields">
-                    <div>
-                      <label for="qz-fn" class="qz-lbl">First name</label>
-                      <input id="qz-fn" name="firstName" type="text" required autocomplete="given-name" placeholder="Alex" class="qz-inp">
-                    </div>
-                    <div>
-                      <label for="qz-em" class="qz-lbl">Email</label>
-                      <input id="qz-em" name="email" type="email" required autocomplete="email" placeholder="you@yourstartup.com" class="qz-inp">
-                    </div>
-                    <div>
-                      <label for="qz-ph" class="qz-lbl">Mobile number</label>
-                      <input id="qz-ph" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="07700 900000" pattern="[0-9\s\+\-\(\)]{7,20}" class="qz-inp">
-                    </div>
+                  <div style="display:grid;gap:12px;">
+                    <div><label for="qz-fn" class="qz-lbl">First name</label><input id="qz-fn" name="firstName" type="text" required autocomplete="given-name" placeholder="Alex" class="qz-inp"></div>
+                    <div><label for="qz-em" class="qz-lbl">Email</label><input id="qz-em" name="email" type="email" required autocomplete="email" placeholder="you@yourstartup.com" class="qz-inp"></div>
+                    <div><label for="qz-ph" class="qz-lbl">Mobile number</label><input id="qz-ph" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="07700 900000" pattern="[0-9\s\+\-\(\)]{7,20}" class="qz-inp"></div>
                   </div>
-                  <div style="margin-top:20px;">
+                  <div style="margin-top:18px;">
                     <button id="qz-sub" type="submit" class="qz-btn" style="width:100%;justify-content:center;">Book my free setup review →</button>
-                    <div style="margin-top:10px;text-align:center;font-size:12px;color:#5a4a7a;">No obligation · We'll confirm a time that works for you</div>
+                    <div style="margin-top:9px;text-align:center;font-size:12px;color:#5a4a7a;">No obligation · We'll confirm a time that works for you</div>
                   </div>
                 </form>
               </div>
-
-              <!-- Score indicator -->
-              <div id="qz-score-display" style="margin-top:16px;background:#f6eefb;border-radius:12px;padding:14px 18px;text-align:center;">
-                <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#5a4a7a;margin-bottom:4px;">Your setup risk score</div>
-                <div id="qz-score-val" style="font-family:'Questrial',sans-serif;font-size:36px;color:#7d33c3;line-height:1;letter-spacing:-0.02em;"></div>
+              <div id="qz-score-display" style="margin-top:14px;background:#f6eefb;border-radius:12px;padding:13px 16px;text-align:center;">
+                <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#5a4a7a;margin-bottom:3px;">Your setup risk score</div>
+                <div id="qz-score-val" style="font-family:'Questrial',sans-serif;font-size:34px;color:#7d33c3;line-height:1;letter-spacing:-0.02em;"></div>
                 <div style="font-size:11px;color:#5a4a7a;margin-top:2px;">out of 19</div>
               </div>
             </div>
@@ -641,34 +574,50 @@
     var qAnswers = [];
     var qTotal   = 0;
 
+    /* ── Event tracking ── */
+    function fireEvent(name, data) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(Object.assign({ event: name }, data || {}));
+      try { window.dispatchEvent(new CustomEvent(name, { detail: data || {} })); } catch(e){}
+      /* Facebook Pixel */
+      if (typeof fbq === 'function') {
+        if (name === 'quiz_started')    fbq('trackCustom', 'QuizStarted');
+        if (name === 'quiz_completed')  fbq('trackCustom', 'QuizCompleted', data || {});
+        if (name === 'form_submission') fbq('track', 'Lead', data || {});
+      }
+      /* GHL / GA4 via gtag */
+      if (typeof gtag === 'function') gtag('event', name, data || {});
+    }
+
     function showScreen(id) {
       document.querySelectorAll('.qz-screen').forEach(function(s){ s.classList.remove('active'); });
-      var el = document.getElementById('qz-s' + id) || document.getElementById(id);
+      var el = (typeof id === 'string' && id.indexOf('qz-') === 0)
+        ? document.getElementById(id)
+        : document.getElementById('qz-s' + id);
+      if (!el) el = document.getElementById(id);
       if (el) {
         el.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Re-trigger animations
         el.querySelectorAll('.qz-fade').forEach(function(f){
-          f.style.animation = 'none';
-          f.offsetHeight; // reflow
-          f.style.animation = '';
+          f.style.animation = 'none'; f.offsetHeight; f.style.animation = '';
         });
       }
     }
 
-    window.startQuiz = function() { showScreen(1); };
+    window.startQuiz = function() {
+      fireEvent('quiz_started');
+      showScreen(1);
+    };
 
     window.pick = function(el, score, flag, next) {
-      // Mark selected
       var parent = el.closest('.qz-answers');
       if (parent) parent.querySelectorAll('.qz-card').forEach(function(c){ c.classList.remove('selected'); });
       el.classList.add('selected');
-
       qAnswers.push({ score: score, flag: flag });
       qTotal += score;
-
       setTimeout(function(){
         if (next === 'results') {
+          fireEvent('quiz_completed', { score: qTotal, tier: getTier(qTotal) });
           showResults();
         } else {
           showScreen(next);
@@ -676,10 +625,15 @@
       }, 280);
     };
 
+    function getTier(score) {
+      if (score <= 4)  return 'green';
+      if (score <= 9)  return 'amber';
+      if (score <= 15) return 'red';
+      return 'critical';
+    }
+
     function showResults() {
       showScreen('qz-results');
-
-      // Show calculating spinner briefly
       setTimeout(function(){
         document.getElementById('qz-calc').style.display = 'none';
         document.getElementById('qz-result-body').style.display = 'block';
@@ -689,80 +643,62 @@
 
     function renderResults() {
       var score = qTotal;
-      var tier, badgeClass, headline, sub;
+      var tier = getTier(score);
+      var badgeClass, headline, sub;
 
-      if (score <= 4) {
-        tier = 'Green';
-        badgeClass = 'tier-green';
-        headline = 'Your setup looks stronger than most — here\'s how to keep it that way.';
+      if (tier === 'green') {
+        badgeClass = 'tier-green'; headline = 'Your setup looks stronger than most — here\'s how to keep it that way.';
         sub = 'Based on your answers, you\'ve done more than the average founder to get your books in order. That said, most setups we review — even solid ones — contain at least one blind spot that isn\'t visible without a professional eye.';
         document.getElementById('qz-green-note').style.display = 'block';
-      } else if (score <= 9) {
-        tier = 'Amber — gaps to address';
-        badgeClass = 'tier-amber';
-        headline = 'You have gaps that are quietly costing you — here\'s what we found.';
-        sub = 'Your answers suggest your setup has issues that won\'t surface dramatically — they\'ll just compound quietly until year-end, when your accountant tells you the records need work. The good news: most of these are fixable in a single session.';
-      } else if (score <= 15) {
-        tier = 'Red — significant risks';
-        badgeClass = 'tier-red';
-        headline = 'Your setup has significant risks that need addressing now.';
-        sub = 'Based on your answers, there are multiple areas of your accounting setup that are likely incorrect. These aren\'t cosmetic issues — they affect your VAT returns, your tax calculations, and your ability to produce accurate reports. The longer they remain, the more expensive they become to fix.';
+      } else if (tier === 'amber') {
+        badgeClass = 'tier-amber'; headline = 'You have gaps that are quietly costing you — here\'s what we found.';
+        sub = 'Your answers suggest your setup has issues that won\'t surface dramatically — they\'ll compound quietly until year-end, when your accountant tells you the records need work. The good news: most are fixable in a single session.';
+      } else if (tier === 'red') {
+        badgeClass = 'tier-red'; headline = 'Your setup has significant risks that need addressing now.';
+        sub = 'Based on your answers, multiple areas of your accounting setup are likely incorrect. These aren\'t cosmetic issues — they affect your VAT returns, tax calculations, and your ability to produce accurate reports. The longer they remain, the more expensive they become to fix.';
       } else {
-        tier = 'Critical — action needed';
-        badgeClass = 'tier-critical';
-        headline = 'Based on your answers, your accounting setup is putting your business at risk.';
-        sub = 'Your answers indicate that your accounting software has never been properly configured. This means every VAT return, every report, and every tax calculation produced from it is potentially incorrect. This is not a question of whether it will cause a problem — it is a question of when.';
+        badgeClass = 'tier-critical'; headline = 'Based on your answers, your accounting setup is putting your business at risk.';
+        sub = 'Your answers indicate your accounting software has never been properly configured. Every VAT return, every report, and every tax calculation produced from it is potentially incorrect. This is not a question of whether it will cause a problem — it is a question of when.';
       }
 
-      document.getElementById('qz-tier-badge').className = 'qz-tier-badge ' + badgeClass;
-      document.getElementById('qz-tier-badge').textContent = tier;
+      var badge = document.getElementById('qz-tier-badge');
+      badge.className = 'qz-tier-badge ' + badgeClass;
+      badge.textContent = tier === 'green' ? 'Setup looks solid' : tier === 'amber' ? 'Amber — gaps to address' : tier === 'red' ? 'Red — significant risks' : 'Critical — action needed';
       document.getElementById('qz-result-headline').textContent = headline;
       document.getElementById('qz-result-sub').textContent = sub;
       document.getElementById('qz-score-val').textContent = score;
 
-      // Build flags
       var flagsEl = document.getElementById('qz-flags');
-      var flags = qAnswers.filter(function(a){ return a.flag && a.score > 0; }).map(function(a){ return a.flag; });
-      // Deduplicate and take up to 4
       var seen = {};
-      flags = flags.filter(function(f){
-        if (seen[f]) return false;
-        seen[f] = true; return true;
-      }).slice(0, 4);
-
+      var flags = qAnswers.filter(function(a){ return a.flag && a.score > 0 && !seen[a.flag] && (seen[a.flag] = true); }).slice(0, 4);
       if (flags.length) {
-        flagsEl.innerHTML = '<div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#5a4a7a;margin-bottom:10px;">Specific issues identified</div>';
-        flags.forEach(function(f){
-          var item = document.createElement('div');
-          item.className = 'qz-flag';
-          item.innerHTML = '<svg class="qz-flag-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>' + f + '</span>';
-          flagsEl.appendChild(item);
+        flagsEl.innerHTML = '<div style="font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#5a4a7a;margin-bottom:9px;">Specific issues identified</div>';
+        flags.forEach(function(a){
+          var d = document.createElement('div'); d.className = 'qz-flag';
+          d.innerHTML = '<svg style="flex-shrink:0;margin-top:1px;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>' + a.flag + '</span>';
+          flagsEl.appendChild(d);
         });
-      } else {
-        flagsEl.style.display = 'none';
-      }
+      } else { flagsEl.style.display = 'none'; }
     }
 
-    // Form submission
+    /* ── Form ── */
     var form = document.getElementById('qz-form');
     if (form) {
       form.addEventListener('submit', function(ev){
         ev.preventDefault();
         var btn = document.getElementById('qz-sub');
-        btn.disabled = true;
-        btn.textContent = 'Sending\u2026';
+        btn.disabled = true; btn.textContent = 'Sending\u2026';
         var d = {
           firstName: form.querySelector('[name="firstName"]').value,
           email:     form.querySelector('[name="email"]').value,
           phone:     form.querySelector('[name="phone"]').value,
           quizScore: qTotal,
-          quizTier:  qTotal <= 4 ? 'green' : qTotal <= 9 ? 'amber' : qTotal <= 15 ? 'red' : 'critical'
+          quizTier:  getTier(qTotal)
         };
+        fireEvent('form_submission', { score: qTotal, tier: d.quizTier });
         var go = function(){ window.location.href = 'quiz-thankyou.html'; };
         fetch('https://services.leadconnectorhq.com/hooks/VRDTt7QEdUNr6vefOyUv/webhook-trigger/e84f8726-0fbd-4e8d-8505-7fe4d9eb0fdc', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(d)
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d)
         }).catch(function(){}).finally(go);
       });
     }
