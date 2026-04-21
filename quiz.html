@@ -692,7 +692,7 @@
           quizTier:  getTier(qTotal)
         };
         fireEvent('form_submission', { score: qTotal, tier: d.quizTier });
-        var go = function(){ window.location.href = 'quiz-thankyou.html'; };
+        var go = function(){ window.location.href = 'https://api.leadconnectorhq.com/widget/bookings/scalesafe-appointments-a2db2094-80b3-4c85-b66a-7c6fdebe577e-74a30efb-84aa-4f4a-abe3-84749b4a20fd-9329103c-09d1-4b66-b186-ce170045d5af-a4010ab5-dc72-44ab-b69a-2777e56d8754'; };
         fetch('https://services.leadconnectorhq.com/hooks/VRDTt7QEdUNr6vefOyUv/webhook-trigger/e84f8726-0fbd-4e8d-8505-7fe4d9eb0fdc', {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d)
         }).catch(function(){}).finally(go);
