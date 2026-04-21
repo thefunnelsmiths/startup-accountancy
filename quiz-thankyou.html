@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>You're booked in — Startup Accountancy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #fdf8ff; color: #1c0956; font-family: 'Lexend', system-ui, sans-serif; line-height: 1.5; }
+    a { text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    :root {
+      --primary: #7d33c3;
+      --primary-grad: linear-gradient(135deg, #7d33c3 0%, #9850de 100%);
+      --dark: #1c0956;
+      --muted: #5a4a7a;
+      --surface: #fdf8ff;
+      --surface-low: #f6eefb;
+      --lime: #dded2e;
+      --outline: rgba(201,188,218,0.4);
+      --shadow-lift: 0 2px 12px -2px rgba(28,9,86,0.06);
+      --shadow-float: 0 16px 48px -12px rgba(28,9,86,0.12);
+    }
+
+    .ty-nav {
+      padding: 24px 0;
+      display: flex; align-items: center; justify-content: center;
+      background: #fdf8ff;
+      border-bottom: 1px solid rgba(201,188,218,0.2);
+    }
+    .ty-ol {
+      display: block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);
+    }
+    .ty-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 16px; padding: 17px 32px;
+      border-radius: 9999px; border: none; cursor: pointer;
+      letter-spacing: 0.01em; transition: filter 150ms;
+      background: var(--primary-grad); color: #fff;
+      box-shadow: 0 6px 20px -6px rgba(125,51,195,0.45);
+      text-decoration: none;
+    }
+    .ty-btn:hover { filter: brightness(1.07); }
+
+    @keyframes ty-up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .ty-fade { animation: ty-up 0.55s cubic-bezier(0.2,0.8,0.2,1) both; }
+    .ty-fade.d1 { animation-delay: 0.08s; }
+    .ty-fade.d2 { animation-delay: 0.16s; }
+    .ty-fade.d3 { animation-delay: 0.24s; }
+
+    .ty-sec { padding: 80px 48px; }
+    .ty-wrap { max-width: 720px; margin: 0 auto; }
+
+    .ty-step {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 20px 0; border-bottom: 1px solid var(--outline);
+    }
+    .ty-step:last-child { border-bottom: none; }
+    .ty-step-num {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--primary-grad); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Questrial', sans-serif; font-size: 18px;
+      flex-shrink: 0; margin-top: 2px;
+      box-shadow: 0 4px 12px -4px rgba(125,51,195,0.4);
+    }
+
+    .ty-trust {
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+      margin-top: 14px;
+    }
+    .ty-trust-item {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .ty-sec { padding: 56px 24px; }
+    }
+    @media (max-width: 480px) {
+      .ty-sec { padding: 44px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="ty-nav">
+    <a href="/" aria-label="Startup Accountancy">
+      <img src="assets/logo.png" alt="Startup Accountancy" style="height:48px;width:auto;">
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="ty-sec" style="position:relative;overflow:hidden;background:#fdf8ff;text-align:center;">
+    <div aria-hidden="true" style="position:absolute;top:-180px;right:-160px;width:600px;height:600px;background:radial-gradient(circle,rgba(152,80,222,0.15),transparent 60%);filter:blur(60px);pointer-events:none;"></div>
+    <div class="ty-wrap" style="position:relative;">
+      <div class="ty-fade">
+        <!-- Tick icon -->
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#7d33c3,#9850de);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 12px 32px -8px rgba(125,51,195,0.4);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="ty-ol" style="margin-bottom:14px;">You're in</span>
+        <h1 style="font-family:'Questrial',sans-serif;font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;letter-spacing:-0.02em;margin:0 0 18px;color:#1c0956;">
+          We've got your details.<br>
+          <span style="background:linear-gradient(135deg,#7d33c3 0%,#9850de 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Here's what happens next.</span>
+        </h1>
+        <p style="font-size:17px;line-height:1.65;color:#5a4a7a;max-width:520px;margin:0 auto;">
+          We'll be in touch within one working day to confirm a time that works for you.
+          The session is 45 minutes, on a video call, and there is no charge.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT STEPS -->
+  <section class="ty-sec" style="background:#f6eefb;">
+    <div class="ty-wrap">
+      <div class="ty-fade" style="text-align:center;margin-bottom:36px;">
+        <span class="ty-ol" style="margin-bottom:10px;">What happens now</span>
+        <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.8rem,3vw,2.4rem);line-height:1.1;letter-spacing:-0.02em;margin:0;color:#1c0956;">Three steps from here to sorted.</h2>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:12px 28px;box-shadow:var(--shadow-lift);">
+        <div class="ty-step ty-fade d1">
+          <div class="ty-step-num">1</div>
+          <div>
+            <div style="font-family:'Questrial',sans-serif;font-size:19px;color:#1c0956;letter-spacing:-0.01em;margin-bottom:4px;">We review your quiz answers</div>
+            <p style="font-size:15px;line-height:1.6;color:#5a4a7a;margin:0;">
+              Before we speak, Marc or James will look at what you told us about your setup. We use this to make the session as useful as possible from minute one.
+            </p>
+          </div>
+        </div>
+        <div class="ty-step ty-fade d2">
+          <div class="ty-step-num">2</div>
+          <div>
+            <div style="font-family:'Questrial',sans-serif;font-size:19px;color:#1c0956;letter-spacing:-0.01em;margin-bottom:4px;">We reach out to confirm a time</div>
+            <p style="font-size:15px;line-height:1.6;color:#5a4a7a;margin:0;">
+              You'll hear from us within one working day. If you'd rather pick a time yourself, you can use the calendar link below — it goes straight into our diary.
+            </p>
+          </div>
+        </div>
+        <div class="ty-step ty-fade d3">
+          <div class="ty-step-num">3</div>
+          <div>
+            <div style="font-family:'Questrial',sans-serif;font-size:19px;color:#1c0956;letter-spacing:-0.01em;margin-bottom:4px;">We meet and review your setup live</div>
+            <p style="font-size:15px;line-height:1.6;color:#5a4a7a;margin:0;">
+              45 minutes on a video call. We log in to your software together, tell you exactly what's wrong, and show you what the correct configuration looks like. At the end, you'll know precisely where you stand.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREPARE + CTA -->
+  <section class="ty-sec" style="background:#fdf8ff;">
+    <div class="ty-wrap" style="text-align:center;">
+      <div class="ty-fade">
+        <span class="ty-ol" style="margin-bottom:12px;">One thing to prepare</span>
+        <h2 style="font-family:'Questrial',sans-serif;font-size:clamp(1.75rem,2.8vw,2.25rem);line-height:1.1;letter-spacing:-0.02em;margin:0 0 16px;color:#1c0956;">Just your software login</h2>
+        <p style="font-size:16px;line-height:1.65;color:#5a4a7a;max-width:520px;margin:0 auto 32px;">
+          Xero, QuickBooks, or Sage — whichever you use. That is the only thing we need from you. No spreadsheets, no documents, no preparation work.
+        </p>
+
+        <div style="background:#f6eefb;border-radius:18px;padding:28px 32px;max-width:480px;margin:0 auto 32px;">
+          <div style="font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#5a4a7a;margin-bottom:16px;">What to have ready</div>
+          <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px;text-align:left;">
+            <li style="display:flex;align-items:center;gap:10px;font-size:14px;color:#1c0956;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Your Xero, QuickBooks, or Sage login
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:14px;color:#1c0956;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              A note of which VAT scheme you think you're on (if any)
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;font-size:14px;color:#1c0956;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              45 minutes — that's all the time you need
+            </li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <a href="https://api.leadconnectorhq.com/widget/booking/5hjTB66wPSkoS6alfnlS" class="ty-btn">
+            Pick a time directly →
+          </a>
+        </div>
+        <div style="font-size:13px;color:#5a4a7a;">
+          Or wait — we'll reach out within one working day.
+        </div>
+
+        <div class="ty-trust">
+          <span class="ty-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            45-minute session
+          </span>
+          <span class="ty-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            No charge
+          </span>
+          <span class="ty-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            No obligation
+          </span>
+          <span class="ty-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7d33c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            No pitch
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER CREDIBILITY -->
+  <section class="ty-sec" style="background:#f6eefb;">
+    <div class="ty-wrap">
+      <div class="ty-fade" style="display:flex;align-items:flex-start;gap:20px;background:#fff;border-radius:20px;padding:28px 32px;box-shadow:var(--shadow-lift);">
+        <div style="display:flex;gap:10px;flex-shrink:0;">
+          <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(140deg,#3a1785,#7d33c3);display:flex;align-items:center;justify-content:center;font-family:'Questrial',sans-serif;font-size:18px;color:#fff;">M</div>
+          <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(140deg,#7d33c3,#c48ef0);display:flex;align-items:center;justify-content:center;font-family:'Questrial',sans-serif;font-size:18px;color:#fff;">J</div>
+        </div>
+        <div>
+          <div style="font-family:'Questrial',sans-serif;font-size:18px;color:#1c0956;letter-spacing:-0.01em;margin-bottom:6px;">Marc &amp; James · Co-founders</div>
+          <p style="font-size:14px;line-height:1.65;color:#5a4a7a;margin:0;">
+            We built Startup Accountancy because we've been founders ourselves — we've raised money, missed burn targets, and sat in boardrooms the night before investor meetings. We know what founders actually need from an accountant. We look forward to speaking with you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
