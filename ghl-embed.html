@@ -61,7 +61,7 @@
 
 /* ── Grids ── */
 #sa-embed .sa-g2   { display:grid; grid-template-columns:1fr 1.1fr; gap:56px; align-items:center; }
-#sa-embed .sa-ghero { display:grid; grid-template-columns:1.45fr 1fr; gap:56px; align-items:start; }
+#sa-embed .sa-ghero { display:grid; grid-template-columns:1fr 1.45fr; gap:56px; align-items:start; }
 #sa-embed .sa-g3   { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 #sa-embed .sa-g4   { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
 #sa-embed .sa-gfoot { display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:48px; }
@@ -150,26 +150,7 @@
   <div aria-hidden="true" style="position:absolute;bottom:-180px;left:-160px;width:540px;height:540px;background:radial-gradient(circle,rgba(221,237,46,0.12),transparent 60%);filter:blur(60px);pointer-events:none;"></div>
   <div style="max-width:1280px;margin:0 auto;position:relative;">
     <div class="sa-r sa-ghero">
-      <!-- Left column: video + testimonial -->
-      <div>
-      <div style="position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-float);background:linear-gradient(135deg,#1c0956 0%,#3a1785 45%,#7d33c3 100%);aspect-ratio:16/10;">
-        <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:40px 40px;"></div>
-        <div aria-hidden="true" style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(221,237,46,0.25),transparent 60%);filter:blur(60px);"></div>
-        <div style="position:absolute;top:24px;left:28px;right:28px;display:flex;justify-content:space-between;color:rgba(255,255,255,0.85);font-family:'Lexend',sans-serif;font-size:13px;font-weight:500;">
-          <span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:#ff5a5a;display:inline-block;"></span>Marc · Co-founder</span>
-          <span>1:42</span>
-        </div>
-        <div style="position:absolute;bottom:24px;left:28px;right:28px;color:#fff;">
-          <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#dded2e;margin-bottom:6px;">90-second walk-through</div>
-          <div style="font-family:'Questrial',sans-serif;font-size:26px;letter-spacing:-0.01em;line-height:1.1;">What's wrong with most founder setups — and how we fix it.</div>
-        </div>
-        <button aria-label="Play video" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.95);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -12px rgba(0,0,0,0.4);">
-          <div style="width:0;height:0;border-left:22px solid #7d33c3;border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px;"></div>
-        </button>
-        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.15);"><div style="width:12%;height:100%;background:#dded2e;"></div></div>
-      </div>
-      </div><!-- end left column -->
-      <!-- Copy -->
+      <!-- Left column: copy -->
       <div class="sa-r d1">
         <span class="sa-ol" style="margin-bottom:18px;">Watch first · 90 seconds</span>
         <h1 style="font-family:'Questrial',sans-serif;font-size:clamp(2.5rem,4.2vw,3.9rem);line-height:1.02;letter-spacing:-0.02em;margin:0 0 22px;color:#1c0956;">
@@ -195,6 +176,25 @@
           </ul>
         </div>
       </div>
+      <!-- Right column: video -->
+      <div>
+      <div style="position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-float);background:linear-gradient(135deg,#1c0956 0%,#3a1785 45%,#7d33c3 100%);aspect-ratio:16/10;">
+        <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:40px 40px;"></div>
+        <div aria-hidden="true" style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(221,237,46,0.25),transparent 60%);filter:blur(60px);"></div>
+        <div style="position:absolute;top:24px;left:28px;right:28px;display:flex;justify-content:space-between;color:rgba(255,255,255,0.85);font-family:'Lexend',sans-serif;font-size:13px;font-weight:500;">
+          <span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:#ff5a5a;display:inline-block;"></span>Marc · Co-founder</span>
+          <span>1:42</span>
+        </div>
+        <div style="position:absolute;bottom:24px;left:28px;right:28px;color:#fff;">
+          <div style="font-family:'Lexend',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#dded2e;margin-bottom:6px;">90-second walk-through</div>
+          <div style="font-family:'Questrial',sans-serif;font-size:26px;letter-spacing:-0.01em;line-height:1.1;">What's wrong with most founder setups — and how we fix it.</div>
+        </div>
+        <button aria-label="Play video" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.95);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px -12px rgba(0,0,0,0.4);">
+          <div style="width:0;height:0;border-left:22px solid #7d33c3;border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px;"></div>
+        </button>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.15);"><div style="width:12%;height:100%;background:#dded2e;"></div></div>
+      </div>
+      </div><!-- end right column -->
     </div>
   </div>
 </section>
